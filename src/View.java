@@ -15,7 +15,7 @@ public class View {
         for (int i = 0; i < size; i++) {
             representation += "\n";
             for (int k = 0; k < size ; k++) {
-                representation += "-----";
+                representation += "----";
             }
             representation += "\n";
             for (int j = 0; j < size; j++) {

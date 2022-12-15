@@ -29,7 +29,7 @@ public class TicTacToe {
                 break;
         }
         // Instanciate the cells
-        this.cells = new Cell[this.size][this.size];
+        this.cells = new Cell[size][size];
 
         // Populate the cells (initialization)
         for (int i = 0; i < size; i++) {
@@ -42,10 +42,10 @@ public class TicTacToe {
     public void get_Move_From_Player(Player player) {
         System.out.println("Player_" + player.representation);
 
-        int[] coordinates = player.getCoordinates();
+        int[] coordinates = player.getCoordinates(size);
         int x = coordinates[0];
         int y = coordinates[1];
-        player.captureCell( this.cells[x][y] );
+        player.captureCell( this.cells[x][y], size );
     }
     // Show the TicTacToe
     public void player_Step(Player player1, Player player2){
@@ -86,7 +86,6 @@ public class TicTacToe {
                 return "Player X Win by horizontal!!!";
             }
             // vertical
-
             ArrayList<String> testVertical = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
                 testVertical.add(test.get(j).get(i));
@@ -99,9 +98,7 @@ public class TicTacToe {
                 end = true;
                 return "Player X Win by vertical!!!";
             }
-
             // diagonal
-
             ArrayList<String> testDiagonal = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
                 testDiagonal.add(test.get(j).get(j));
@@ -114,9 +111,7 @@ public class TicTacToe {
                 end = true;
                 return "Player X Win by diagonal \"\\\" !!!";
             }
-
             // diagonal2
-
             ArrayList<String> testDiagonal2 = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
                 testDiagonal2.add(test.get(j).get((size - 1) - j));
@@ -129,6 +124,17 @@ public class TicTacToe {
                 end = true;
                 return "Player X Win by diagonal \"/\" !!!";
             }
+            // No win
+        }
+        ArrayList<String> testNoWin = new ArrayList<>();
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[i].length; j++) {
+                testNoWin.add(cells[i][j].cell_Print());
+            }
+        }
+        if (!testNoWin.contains("|   ")) {
+            end = true;
+            return "No winner";
         }
         return "Make choose!!!";
     }

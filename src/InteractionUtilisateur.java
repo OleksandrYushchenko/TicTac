@@ -1,14 +1,19 @@
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
+    Visualization visualization;
     View view = new View();
-    int size;
     public void InteractionUtilisateur(){
-        this.size = get_Size_Of_Game_Field();
+        this.visualization = new Visualization();
     }
+
+
+    // Declaring the color
+    // Custom declaration
+
     public int get_Size_Of_Game_Field(){
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter size of game field - ");
+        System.out.print(visualization.RED_BOLD + "Enter size of game field - " + visualization.ANSI_RESET);
         return scanner.nextInt();
     }
     public int get_Type_Of_Game(){

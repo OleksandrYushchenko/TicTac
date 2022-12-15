@@ -1,18 +1,16 @@
 public class Player  {
-    TicTacToe ticTacToe;
-    InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
+    InteractionUtilisateur interactionUtilisateur;
     String representation;
     public Player(String pRepresentation){ // Constructor is always mandatory
-        this.ticTacToe = new TicTacToe();
         this.representation = pRepresentation;
+        this.interactionUtilisateur = new InteractionUtilisateur();
     }
-    public int[] getCoordinates(){
-        return interactionUtilisateur.getCoordinates(ticTacToe.size);
+    public int[] getCoordinates(Integer size){
+        return interactionUtilisateur.getCoordinates(size);
     }
-    public void captureCell(Cell cell) {
+    public void captureCell(Cell cell, Integer size) {
         if (cell.representation == "|   ") {
             cell.representation = this.representation;
         }
     }
 }
-
