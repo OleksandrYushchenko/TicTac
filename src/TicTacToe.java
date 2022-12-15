@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class TicTacToe {
     InteractionUtilisateur interactionUtilisateur;
     View view = new View();
-    static int size = 3;
+    int size;
     int typeOfGame;
     Cell[][] cells;
     Player playerX;
@@ -11,6 +11,7 @@ public class TicTacToe {
     Boolean end = false;
     public TicTacToe(){
         this.interactionUtilisateur = new InteractionUtilisateur();
+        this.size = interactionUtilisateur.get_Size_Of_Game_Field();
         this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
         // Instanciate the player
         switch (typeOfGame) {
@@ -28,7 +29,7 @@ public class TicTacToe {
                 break;
         }
         // Instanciate the cells
-        this.cells = new Cell[size][size];
+        this.cells = new Cell[this.size][this.size];
 
         // Populate the cells (initialization)
         for (int i = 0; i < size; i++) {
@@ -64,7 +65,6 @@ public class TicTacToe {
         }
     }
     public String test_For_Win() {
-
         // initialization test array
         ArrayList<ArrayList<String>> test = new ArrayList<>();
         for (int i = 0; i < cells.length; i++) {
@@ -74,8 +74,6 @@ public class TicTacToe {
             }
             test.add(item);
         }
-
-
         //initialization testing
         for (int i = 0; i < test.size(); i++) {
             // horizontal
