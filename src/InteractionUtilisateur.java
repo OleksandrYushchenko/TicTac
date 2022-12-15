@@ -24,16 +24,16 @@ public class InteractionUtilisateur {
     }
     public int[] getCoordinates(Integer size){
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
-        System.out.print("Enter coordinate X - ");
+        System.out.print(visualization.RED_BOLD + "Enter coordinate X - " + visualization.ANSI_RESET);
         int x = sc.nextInt();
         while (x > size) {
-            System.out.print("Enter coordinate X " + "(x<=" + size + ") - " );
+            System.out.print(visualization.RED_BOLD + "Enter coordinate X " + "(x<=" + size + ") - " + visualization.ANSI_RESET);
             x = sc.nextInt();
         }
-        System.out.print("Enter coordinate Y - ");
+        System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y - " + visualization.ANSI_RESET);
         int y = sc.nextInt();
         while (y > size) {
-            System.out.print("Enter coordinate Y " + "(y<=" + size + ") - " );
+            System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y " + "(y<=" + size + ") - " + visualization.ANSI_RESET);
             y = sc.nextInt();
         }
 
