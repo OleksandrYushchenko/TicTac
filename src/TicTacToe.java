@@ -1,8 +1,8 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class TicTacToe {
     InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
+    View view = new View();
     static int size = 3;
     int typeOfGame = interactionUtilisateur.get_Type_Of_Game();
     Cell[][] cells;
@@ -35,20 +35,6 @@ public class TicTacToe {
             }
         }
     }
-    public void display_Game_Field(){
-        String representation = "";
-        for (int i = 0; i < size; i++) {
-            representation += "\n";
-            for (int k = 0; k < size ; k++) {
-                representation += "-----";
-            }
-            representation += "\n";
-            for (int j = 0; j < size; j++) {
-                representation += cells[i][j].cell_Print();
-            }
-        }
-        System.out.println(representation);
-    }
     // Ask for coordinates and capture the cell if possible
     public void get_Move_From_Player(Player player) {
         System.out.println("Player_" + player.representation);
@@ -61,21 +47,22 @@ public class TicTacToe {
     // Show the TicTacToe
     public void player_Step(Player player1, Player player2){
         this.get_Move_From_Player(player1);
-        this.display_Game_Field();
+        view.display_Game_Field(this.cells, size);
         System.out.println(test_For_Win());
         if (!end) {
             this.get_Move_From_Player(player2);
-            this.display_Game_Field();
+            view.display_Game_Field(this.cells, size);
             System.out.println(test_For_Win());
         }
     }
     public void play () {
-        this.display_Game_Field();
+        view.display_Game_Field(this.cells, size);
         while (!end){
             player_Step(playerX, playerO);
         }
     }
     public String test_For_Win() {
+
         // initialization test array
         ArrayList<ArrayList<String>> test = new ArrayList<>();
         for (int i = 0; i < cells.length; i++) {
@@ -104,10 +91,9 @@ public class TicTacToe {
             for (int j = 0; j < test.get(i).size(); j++) {
                 testVertical.add(test.get(j).get(i));
             }
-
             if (!testVertical.contains("|   ") && !testVertical.contains("| X ")) {
                 end = true;
-                return "Player O Win by vertical!!!";
+                return "Player O Win by !!!";
             }
             if (!testVertical.contains("|   ") && !testVertical.contains("| O ")) {
                 end = true;

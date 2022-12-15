@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
+    View view = new View();
     public void InteractionUtilisateur(){
 
     }
@@ -10,14 +11,26 @@ public class InteractionUtilisateur {
         return scanner.nextInt();
     }
     public int get_Type_Of_Game(){
-        System.out.println("""
-        1. To Play with 2 human players;
-        2. To Play against the machine;
-        3. To watch two machines play together;
-        """);
+        view.get_Type_Of_Game_List();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter number of players");
+        view.Enter_number_of_players();
         return scanner.nextInt();
     }
+    public int[] getCoordinates(){
+        Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
+        System.out.print("Enter coordinate X - ");
+        int x = sc.nextInt();
+        while (x > TicTacToe.size) {
+            System.out.print("Enter coordinate X " + "(x<=" + TicTacToe.size + ") - " );
+            x = sc.nextInt();
+        }
+        System.out.print("Enter coordinate Y - ");
+        int y = sc.nextInt();
+        while (y > TicTacToe.size) {
+            System.out.print("Enter coordinate Y " + "(y<=" + TicTacToe.size + ") - " );
+            y = sc.nextInt();
+        }
 
+        return new int[]{ x, y };
+    }
 }
