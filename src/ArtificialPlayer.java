@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class ArtificialPlayer extends Player{
     public ArtificialPlayer (String pRepresnetation){
         super(pRepresnetation);

@@ -5,6 +5,7 @@ public class Player  {
 
         this.representation = pRepresentation;
     }
+//    Moved to InteractionUtilisateur!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     public int[] getCoordinates(){
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
