@@ -1,6 +1,3 @@
-import java.lang.reflect.Method;
-import java.util.function.Function;
-
 public class View {
     public View () {}
     public void get_Type_Of_Game_List(){

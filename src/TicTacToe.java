@@ -1,15 +1,17 @@
 import java.util.ArrayList;
 
 public class TicTacToe {
-    InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
+    InteractionUtilisateur interactionUtilisateur;
     View view = new View();
     static int size = 3;
-    int typeOfGame = interactionUtilisateur.get_Type_Of_Game();
+    int typeOfGame;
     Cell[][] cells;
     Player playerX;
     Player playerO;
     Boolean end = false;
     public TicTacToe(){
+        this.interactionUtilisateur = new InteractionUtilisateur();
+        this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
         // Instanciate the player
         switch (typeOfGame) {
             case 1:

@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class Player  {
     InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
     String representation;
