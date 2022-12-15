@@ -25,6 +25,7 @@ public class View {
                 representation += cells[i][j].cell_Print();
             }
         }
+
         System.out.println(representation);
     }
 }

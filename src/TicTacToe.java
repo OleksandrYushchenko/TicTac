@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class TicTacToe {
+    Visualization visualization;
     InteractionUtilisateur interactionUtilisateur;
     View view = new View();
     int size;
@@ -37,6 +38,7 @@ public class TicTacToe {
                 cells[i][j] = new Cell();
             }
         }
+        this.visualization = new Visualization();
     }
     // Ask for coordinates and capture the cell if possible
     public void get_Move_From_Player(Player player) {
@@ -51,11 +53,11 @@ public class TicTacToe {
     public void player_Step(Player player1, Player player2){
         this.get_Move_From_Player(player1);
         view.display_Game_Field(this.cells, size);
-        System.out.println(test_For_Win());
+        System.out.println(visualization.GREEN_BOLD + test_For_Win() + visualization.ANSI_RESET);
         if (!end) {
             this.get_Move_From_Player(player2);
             view.display_Game_Field(this.cells, size);
-            System.out.println(test_For_Win());
+            System.out.println(visualization.GREEN_BOLD + test_For_Win() + visualization.ANSI_RESET);
         }
     }
     public void play () {
@@ -92,7 +94,7 @@ public class TicTacToe {
             }
             if (!testVertical.contains("|   ") && !testVertical.contains("| X ")) {
                 end = true;
-                return "Player O Win by !!!";
+                return "Player O Win by vertical!!!";
             }
             if (!testVertical.contains("|   ") && !testVertical.contains("| O ")) {
                 end = true;
