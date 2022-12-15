@@ -2,8 +2,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TicTacToe {
+    InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
     static int size = 3;
-    int typeOfGame = get_Type_Of_Game();
+    int typeOfGame = interactionUtilisateur.get_Type_Of_Game();
     Cell[][] cells;
     Player playerX;
     Player playerO;
@@ -33,16 +34,6 @@ public class TicTacToe {
                 cells[i][j] = new Cell();
             }
         }
-    }
-    public int get_Type_Of_Game(){
-        System.out.println("""
-        1. To Play with 2 human players;
-        2. To Play against the machine;
-        3. To watch two machines play together;
-        """);
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter number of players");
-        return scanner.nextInt();
     }
     public void display_Game_Field(){
         String representation = "";
