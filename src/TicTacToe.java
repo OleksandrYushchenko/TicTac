@@ -3,36 +3,27 @@ import java.util.Scanner;
 
 public class TicTacToe {
     static int size = 3;
-    int typeOfGame = getTypeOfGame();
+    int typeOfGame = get_Type_Of_Game();
     Cell[][] cells;
     Player playerX;
     Player playerO;
-
-    InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
-
-
     Boolean end = false;
-
     public TicTacToe(){
         // Instanciate the player
         switch (typeOfGame) {
-            case 1 :
+            case 1:
                 this.playerX = new Player("| X ");
                 this.playerO = new Player("| O ");
                 break;
-            case 2 :
+            case 2:
                 this.playerX = new Player("| X ");
                 this.playerO = new ArtificialPlayer("| O ");
                 break;
             default:
-                this.playerX = new ArtificialPlayer("| O ");
+                this.playerX = new ArtificialPlayer("| X ");
                 this.playerO = new ArtificialPlayer("| O ");
                 break;
         }
-
-//        this.ArtificialPlayerX = new ArtificialPlayer("| X ");
-//        this.ArtificialPlayerO = new ArtificialPlayer("| O ");
-
         // Instanciate the cells
         this.cells = new Cell[size][size];
 
@@ -43,7 +34,7 @@ public class TicTacToe {
             }
         }
     }
-    public int getTypeOfGame (){
+    public int get_Type_Of_Game(){
         System.out.println("""
         1. To Play with 2 human players;
         2. To Play against the machine;
@@ -53,25 +44,12 @@ public class TicTacToe {
         System.out.println("Enter number of players");
         return scanner.nextInt();
     }
-
-    // Ask for coordinates and capture the cell if possible
-    public void geMoveFromPlayer(Player player) {
-        System.out.println("Player_" + player.representation);
-
-        int[] coordinates = player.getCoordinates();
-        int x = coordinates[0];
-        int y = coordinates[1];
-
-        player.captureCell( this.cells[x][y] );
-    }
-
-    // Show the TicTacToe
-    public void display_new(){
+    public void display_Game_Field(){
         String representation = "";
         for (int i = 0; i < size; i++) {
             representation += "\n";
             for (int k = 0; k < size ; k++) {
-                representation += "----";
+                representation += "-----";
             }
             representation += "\n";
             for (int j = 0; j < size; j++) {
@@ -80,27 +58,33 @@ public class TicTacToe {
         }
         System.out.println(representation);
     }
+    // Ask for coordinates and capture the cell if possible
+    public void get_Move_From_Player(Player player) {
+        System.out.println("Player_" + player.representation);
 
-    public void playerStep (Player player1, Player player2){
-        this.geMoveFromPlayer(player1);
-        this.display_new();
-        System.out.println(test());
+        int[] coordinates = player.getCoordinates();
+        int x = coordinates[0];
+        int y = coordinates[1];
+        player.captureCell( this.cells[x][y] );
+    }
+    // Show the TicTacToe
+    public void player_Step(Player player1, Player player2){
+        this.get_Move_From_Player(player1);
+        this.display_Game_Field();
+        System.out.println(test_For_Win());
         if (!end) {
-            this.geMoveFromPlayer(player2);
-            this.display_new();
-            System.out.println(test());
+            this.get_Move_From_Player(player2);
+            this.display_Game_Field();
+            System.out.println(test_For_Win());
         }
     }
     public void play () {
-
+        this.display_Game_Field();
         while (!end){
-            this.display_new();
-            System.out.println(test());
-            playerStep(playerX, playerO);
+            player_Step(playerX, playerO);
         }
     }
-
-    public String test () {
+    public String test_For_Win() {
         // initialization test array
         ArrayList<ArrayList<String>> test = new ArrayList<>();
         for (int i = 0; i < cells.length; i++) {
@@ -110,6 +94,8 @@ public class TicTacToe {
             }
             test.add(item);
         }
+
+
         //initialization testing
         for (int i = 0; i < test.size(); i++) {
             // horizontal
@@ -122,10 +108,12 @@ public class TicTacToe {
                 return "Player X Win by horizontal!!!";
             }
             // vertical
+
             ArrayList<String> testVertical = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
                 testVertical.add(test.get(j).get(i));
             }
+
             if (!testVertical.contains("|   ") && !testVertical.contains("| X ")) {
                 end = true;
                 return "Player O Win by vertical!!!";
@@ -134,7 +122,9 @@ public class TicTacToe {
                 end = true;
                 return "Player X Win by vertical!!!";
             }
+
             // diagonal
+
             ArrayList<String> testDiagonal = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
                 testDiagonal.add(test.get(j).get(j));
@@ -147,10 +137,12 @@ public class TicTacToe {
                 end = true;
                 return "Player X Win by diagonal \"\\\" !!!";
             }
+
             // diagonal2
+
             ArrayList<String> testDiagonal2 = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
-                testDiagonal2.add(test.get(j).get((TicTacToe.size - 1) - j));
+                testDiagonal2.add(test.get(j).get((size - 1) - j));
             }
             if (!testDiagonal2.contains("|   ") && !testDiagonal2.contains("| X ")) {
                 end = true;
@@ -159,17 +151,6 @@ public class TicTacToe {
             if (!testDiagonal2.contains("|   ") && !testDiagonal2.contains("| O ")) {
                 end = true;
                 return "Player X Win by diagonal \"/\" !!!";
-            }
-            // no Win
-            ArrayList<String> testall = new ArrayList<>();
-            for (int k = 0; k < cells.length; k++) {
-                for (int j = 0; j < cells[k].length; j++) {
-                    testall.add(cells[k][j].cell_Print());
-                }
-            }
-            if (!testall.contains("|   ")) {
-                end = true;
-                return "no Winner!!!";
             }
         }
         return "Make choose!!!";

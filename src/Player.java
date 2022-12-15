@@ -5,8 +5,6 @@ public class Player  {
 
         this.representation = pRepresentation;
     }
-//    Moved to InteractionUtilisateur!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     public int[] getCoordinates(){
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
         System.out.print("Enter coordinate X - ");
@@ -24,7 +22,6 @@ public class Player  {
 
         return new int[]{ x, y };
     }
-
     public void captureCell(Cell cell) {
         if (cell.representation == "|   ") {
             cell.representation = this.representation;
