@@ -11,7 +11,7 @@ public class View {
         """ + visualization.ANSI_RESET);
     }
     public void Enter_number_of_players (){
-        System.out.println(visualization.RED_BOLD + "Enter number of players" + visualization.ANSI_RESET);
+        System.out.print(visualization.RED_BOLD + "\nEnter number of players - " + visualization.ANSI_RESET);
     }
     public void display_Game_Field(Cell[][] cells, int size){
         String representation = "";
