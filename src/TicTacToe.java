@@ -111,7 +111,7 @@ public class TicTacToe {
             }
         }
     }
-    public String test_For_Win() {
+    public ArrayList<ArrayList<String>> test_Array_Initialization() {
         // initialization test array
         ArrayList<ArrayList<String>> test = new ArrayList<>();
         for (int i = 0; i < cells.length; i++) {
@@ -121,13 +121,48 @@ public class TicTacToe {
             }
             test.add(item);
         }
+        return test;
+    }
+    public String testing_V_D_D2 (ArrayList<ArrayList<String>> test, int i, String version, String representation, String by) {
+        ArrayList<String> testArray = new ArrayList<>();
+        String result = "";
+        for (int j = 0; j < test.get(i).size(); j++) {
+            switch (version) {
+                case "V":
+                    testArray.add(test.get(j).get(i));
+                    break;
+                case "D":
+                    testArray.add(test.get(j).get(j));
+                    break;
+                case "D2":
+                    testArray.add(test.get(j).get((size - 1) - j));
+                    break;
+                default:
+                    System.out.println("error!!!");
+            }
+        }
+        if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
+            end = true;
+            color_Checkout(representation, i, version);
+            result = "\nPlayer O Win by " + by + "!!!";
+        }
+        if (!testArray.contains("|   ") && !testArray.contains("| O ")) {
+            end = true;
+            color_Checkout(representation, i, version);
+            result = "\nPlayer X Win by " + by + "!!!";
+        }
+        return result;
+    }
+    public String test_For_Win() {
         //initialization testing
-
+        ArrayList<ArrayList<String>> test = test_Array_Initialization();
         String representation = "";
         representation += "\n";
         for (int k = 0; k < size ; k++) {
             representation += "----";
         }
+        String result = "";
+        // testing initialization
         for (int i = 0; i < test.size(); i++) {
             // horizontal
             if (!test.get(i).contains("|   ") && !test.get(i).contains("| X ")) {
@@ -141,35 +176,41 @@ public class TicTacToe {
                 return "\nPlayer X Win by horizontal!!!";
             }
             // vertical
-            ArrayList<String> testVertical = new ArrayList<>();
-            for (int j = 0; j < test.get(i).size(); j++) {
-                testVertical.add(test.get(j).get(i));
-            }
-            if (!testVertical.contains("|   ") && !testVertical.contains("| X ")) {
-                end = true;
-                color_Checkout(representation, i, "V");
-                return "\nPlayer O Win by vertical!!!";
-            }
-            if (!testVertical.contains("|   ") && !testVertical.contains("| O ")) {
-                end = true;
-                color_Checkout(representation, i, "V");
-                return "\nPlayer X Win by vertical!!!";
-            }
+            result = testing_V_D_D2(test, i, "V", representation, "vertical");
+
+//            ArrayList<String> testVertical = new ArrayList<>();
+//            for (int j = 0; j < test.get(i).size(); j++) {
+//                testVertical.add(test.get(j).get(i));
+//            }
+//            if (!testVertical.contains("|   ") && !testVertical.contains("| X ")) {
+//                end = true;
+//                color_Checkout(representation, i, "V");
+//                return "\nPlayer O Win by vertical!!!";
+//            }
+//            if (!testVertical.contains("|   ") && !testVertical.contains("| O ")) {
+//                end = true;
+//                color_Checkout(representation, i, "V");
+//                return "\nPlayer X Win by vertical!!!";
+//            }
             // diagonal
-            ArrayList<String> testDiagonal = new ArrayList<>();
-            for (int j = 0; j < test.get(i).size(); j++) {
-                testDiagonal.add(test.get(j).get(j));
+            if (result == "") {
+                result = testing_V_D_D2(test, i, "D", representation, "diagonal \"\\\"!!!");
             }
-            if (!testDiagonal.contains("|   ") && !testDiagonal.contains("| X ")) {
-                end = true;
-                color_Checkout(representation, i, "D");
-                return "\nPlayer O Win by diagonal \"\\\"!!!";
-            }
-            if (!testDiagonal.contains("|   ") && !testDiagonal.contains("| O ")) {
-                end = true;
-                color_Checkout(representation, i, "D");
-                return "\nPlayer X Win by diagonal \"\\\" !!!";
-            }
+
+//            ArrayList<String> testDiagonal = new ArrayList<>();
+//            for (int j = 0; j < test.get(i).size(); j++) {
+//                testDiagonal.add(test.get(j).get(j));
+//            }
+//            if (!testDiagonal.contains("|   ") && !testDiagonal.contains("| X ")) {
+//                end = true;
+//                color_Checkout(representation, i, "D");
+//                return "\nPlayer O Win by diagonal \"\\\"!!!";
+//            }
+//            if (!testDiagonal.contains("|   ") && !testDiagonal.contains("| O ")) {
+//                end = true;
+//                color_Checkout(representation, i, "D");
+//                return "\nPlayer X Win by diagonal \"\\\" !!!";
+//            }
             // diagonal2
             ArrayList<String> testDiagonal2 = new ArrayList<>();
             for (int j = 0; j < test.get(i).size(); j++) {
@@ -185,7 +226,7 @@ public class TicTacToe {
                 color_Checkout(representation, i, "D2");
                 return "\nPlayer X Win by diagonal \"/\" !!!";
             }
-
+            return result;
         }
         view.display_Game_Field(this.cells, size);
         // No win
