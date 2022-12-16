@@ -47,7 +47,14 @@ public class TicTacToe {
         int[] coordinates = player.getCoordinates(size);
         int x = coordinates[0];
         int y = coordinates[1];
-        player.captureCell( this.cells[x][y], size );
+        while (this.cells[x][y].representation == "| X " || this.cells[x][y].representation == "| O "){
+            System.out.println(visualization.RED_BOLD + "\nCell is already captured!!!" + visualization.ANSI_RESET);
+            System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + player.representation);
+            coordinates = player.getCoordinates(size);
+            x = coordinates[0];
+            y = coordinates[1];
+        }
+        player.captureCell( this.cells[x][y]);
     }
     // Show the TicTacToe
     public void player_Step(Player player1, Player player2){
@@ -64,48 +71,43 @@ public class TicTacToe {
             player_Step(playerX, playerO);
         }
     }
-    public void colorHorizontal (String rep, Integer i) {
+    public void color_Checkout(String rep, Integer i, String checkout) {
         for (int h = 0; h < size; h++) {
             System.out.print(rep);
             for (int j = 0; j < size; j++) {
                 if (j % size == 0) {
                     System.out.print("\n");
                 }
-                if (h == i) {
-                    cells[i][j].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
-                } else {
-                    cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                switch (checkout) {
+                    case "H":
+                        if (h == i) {
+                            cells[i][j].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                        } else {
+                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                        }
+                        break;
+                    case "V":
+                        if (j == i) {
+                            cells[h][j].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                        } else {
+                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                        }
+                        break;
+                    case "D":
+                        if (j == h) {
+                            cells[j][h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                        } else {
+                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                        }
+                        break;
+                    default:
+                        if (j == (size - 1) - h) {
+                            cells[h][(size - 1) - h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                        } else {
+                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                        }
                 }
-            }
-        }
-    }
-    public void colorVertical (String rep, Integer i) {
-        for (int h = 0; h < size; h++) {
-            System.out.print(rep);
-            for (int j = 0; j < size; j++) {
-                if (j % size == 0) {
-                    System.out.print("\n");
-                }
-                if (j == i) {
-                    cells[h][j].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
-                } else {
-                    cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
-                }
-            }
-        }
-    }
-    public void colorDiagonal (String rep) {
-        for (int h = 0; h < size; h++) {
-            System.out.print(rep);
-            for (int j = 0; j < size; j++) {
-                if (j % size == 0) {
-                    System.out.print("\n");
-                }
-                if (j == h) {
-                    cells[j][h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
-                } else {
-                    cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
-                }
+
             }
         }
     }
@@ -130,12 +132,12 @@ public class TicTacToe {
             // horizontal
             if (!test.get(i).contains("|   ") && !test.get(i).contains("| X ")) {
                 end = true;
-                colorHorizontal(representation, i);
+                color_Checkout(representation, i, "H");
                 return "\nPlayer O Win by horizontal!!!";
             }
             if (!test.get(i).contains("|   ") && !test.get(i).contains("| O ")) {
                 end = true;
-                colorHorizontal(representation, i);
+                color_Checkout(representation, i, "H");
                 return "\nPlayer X Win by horizontal!!!";
             }
             // vertical
@@ -145,12 +147,12 @@ public class TicTacToe {
             }
             if (!testVertical.contains("|   ") && !testVertical.contains("| X ")) {
                 end = true;
-                colorVertical(representation, i);
+                color_Checkout(representation, i, "V");
                 return "\nPlayer O Win by vertical!!!";
             }
             if (!testVertical.contains("|   ") && !testVertical.contains("| O ")) {
                 end = true;
-                colorVertical(representation, i);
+                color_Checkout(representation, i, "V");
                 return "\nPlayer X Win by vertical!!!";
             }
             // diagonal
@@ -160,12 +162,12 @@ public class TicTacToe {
             }
             if (!testDiagonal.contains("|   ") && !testDiagonal.contains("| X ")) {
                 end = true;
-                colorDiagonal(representation);
+                color_Checkout(representation, i, "D");
                 return "\nPlayer O Win by diagonal \"\\\"!!!";
             }
             if (!testDiagonal.contains("|   ") && !testDiagonal.contains("| O ")) {
                 end = true;
-                colorDiagonal(representation);
+                color_Checkout(representation, i, "D");
                 return "\nPlayer X Win by diagonal \"\\\" !!!";
             }
             // diagonal2
@@ -175,36 +177,12 @@ public class TicTacToe {
             }
             if (!testDiagonal2.contains("|   ") && !testDiagonal2.contains("| X ")) {
                 end = true;
-                for (int h = 0; h < size; h++) {
-                    System.out.print(representation);
-                    for (int j = 0; j < size; j++) {
-                        if (j % size == 0) {
-                            System.out.print("\n");
-                        }
-                        if (j == (size - 1) - h) {
-                            cells[h][(size - 1) - h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
-                        } else {
-                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
-                        }
-                    }
-                }
+                color_Checkout(representation, i, "D2");
                 return "\nPlayer O Win by diagonal \"/\" !!!";
             }
             if (!testDiagonal2.contains("|   ") && !testDiagonal2.contains("| O ")) {
                 end = true;
-                for (int h = 0; h < size; h++) {
-                    System.out.print(representation);
-                    for (int j = 0; j < size; j++) {
-                        if (j % size == 0) {
-                            System.out.print("\n");
-                        }
-                        if (j == (size - 1) - h) {
-                            cells[h][(size - 1) - h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
-                        } else {
-                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
-                        }
-                    }
-                }
+                color_Checkout(representation, i, "D2");
                 return "\nPlayer X Win by diagonal \"/\" !!!";
             }
 

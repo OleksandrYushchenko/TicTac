@@ -8,7 +8,7 @@ public class Player  {
     public int[] getCoordinates(Integer size){
         return interactionUtilisateur.getCoordinates(size);
     }
-    public void captureCell(Cell cell, Integer size) {
+    public void captureCell(Cell cell) {
         if (cell.representation == "|   ") {
             cell.representation = this.representation;
         }
