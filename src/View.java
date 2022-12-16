@@ -15,18 +15,19 @@ public class View {
     }
     public void display_Game_Field(Cell[][] cells, int size){
         String representation = "";
+        representation += "\n";
+        for (int k = 0; k < size ; k++) {
+            representation += "----";
+        }
         for (int i = 0; i < size; i++) {
-            representation += "\n";
-            for (int k = 0; k < size ; k++) {
-                representation += "----";
-            }
-            representation += "\n";
+            System.out.print(representation);
             for (int j = 0; j < size; j++) {
-                representation += cells[i][j].cell_Print();
+                if (j % size == 0) {
+                    System.out.print("\n");
+                }
+                cells[i][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
             }
         }
-
-        System.out.println(representation);
     }
 }
 

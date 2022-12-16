@@ -5,7 +5,10 @@ public class  Cell {
 
         this.representation = "|   ";
     }
-    String cell_Print () {
+    public String cell_Print (String t, String u, String r) {
+        if (t == "printTest") {
+            System.out.print(u + this.representation + r);
+        }
 
         return this.representation;
     }

@@ -9,7 +9,6 @@ public class ArtificialPlayer extends Player{
                 (Math.random() * (max - min)) + min);
     }
     ArrayList<int[]> test = new ArrayList<>();
-
     public int[] getCoordinates(Integer size){
         int x = getRandomNumber(0, size);
         int y = getRandomNumber(0, size);
