@@ -9,26 +9,42 @@ public class InteractionUtilisateur {
     }
     public int get_Size_Of_Game_Field(){
         Scanner scanner = new Scanner(System.in);
-        int number = 1;
+        int number = 0;
         while (number < 3) {
             try {
                 System.out.print(visualization.RED_BOLD + "Enter size of game field - " + visualization.ANSI_RESET);
                 number = scanner.nextInt();
+                if (number < 3) {
+                    System.out.println("Enter number >= 3");
+                }
             } catch (Exception e) {
                 System.out.println("Entered data is not valid");
                 scanner.next();
             }
-            if (number < 3) {
-                System.out.println("Enter number >= 3");
-            }
+
         }
         return number;
     }
     public int get_Type_Of_Game(){
         Scanner scanner = new Scanner(System.in);
-        view.get_Type_Of_Game_List();
-        view.Enter_number_of_players();
-        return scanner.nextInt();
+        int number = 4;
+        Boolean condition = true;
+        while (condition) {
+
+            view.get_Type_Of_Game_List();
+            try {
+                System.out.print(visualization.RED_BOLD + "Enter type of game - " + visualization.ANSI_RESET);
+                number = scanner.nextInt();
+                condition = number > 3 || number < 1;
+                if (condition) {
+                    System.out.println("Enter number between 1 2 3");
+                }
+            } catch (Exception e) {
+                System.out.println("Entered data is not valid");
+                scanner.next();
+            }
+        }
+        return number;
     }
     public int[] getCoordinates(Integer size){
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
