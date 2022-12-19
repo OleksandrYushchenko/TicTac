@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class TicTacToe {
     Visualization visualization;
     InteractionUtilisateur interactionUtilisateur;
-    View view = new View();
+    View view;
     int size;
     int typeOfGame;
     Cell[][] cells;
@@ -11,7 +11,9 @@ public class TicTacToe {
     Player playerO;
     Boolean end = false;
     public TicTacToe(){
+        this.visualization = new Visualization();
         this.interactionUtilisateur = new InteractionUtilisateur();
+        this.view  = new View();
         this.size = interactionUtilisateur.get_Size_Of_Game_Field();
         this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
         // Instanciate the player
@@ -31,14 +33,12 @@ public class TicTacToe {
         }
         // Instanciate the cells
         this.cells = new Cell[size][size];
-
         // Populate the cells (initialization)
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 cells[i][j] = new Cell();
             }
         }
-        this.visualization = new Visualization();
     }
     // Ask for coordinates and capture the cell if possible
     public void get_Move_From_Player(Player player) {
@@ -198,6 +198,7 @@ public class TicTacToe {
         }
         if (!testNoWin.contains("|   ")) {
             end = true;
+            view.display_Game_Field(cells, size);
             return "\nNo winner!!!";
         }
         view.display_Game_Field(cells, size);
