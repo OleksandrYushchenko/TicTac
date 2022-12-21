@@ -1,11 +1,11 @@
 import java.util.Scanner;
-import java.util.WeakHashMap;
 
 public class InteractionUtilisateur {
     Visualization visualization;
-    View view = new View();
+    View view;
     public InteractionUtilisateur(){
         this.visualization = new Visualization();
+        this.view = new View();
     }
     public int get_Size_Of_Game_Field(){
         Scanner scanner = new Scanner(System.in);
@@ -28,7 +28,7 @@ public class InteractionUtilisateur {
     public int get_Type_Of_Game(){
         Scanner scanner = new Scanner(System.in);
         int number = 4;
-        Boolean condition = true;
+        boolean condition = true;
         while (condition) {
 
             view.get_Type_Of_Game_List();

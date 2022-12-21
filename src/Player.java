@@ -1,4 +1,6 @@
-public class Player  {
+import java.util.Objects;
+
+public class Player {
     InteractionUtilisateur interactionUtilisateur;
     String representation;
     public Player(String pRepresentation){ // Constructor is always mandatory
@@ -9,7 +11,7 @@ public class Player  {
         return interactionUtilisateur.getCoordinates(size);
     }
     public void captureCell(Cell cell) {
-        if (cell.representation == "|   ") {
+        if (Objects.equals(cell.representation, "|   ")) {
             cell.representation = this.representation;
         }
     }

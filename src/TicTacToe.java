@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TicTacToe {
     Visualization visualization;
@@ -18,18 +19,18 @@ public class TicTacToe {
         this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
         // Instanciate the player
         switch (typeOfGame) {
-            case 1:
+            case 1 -> {
                 this.playerX = new Player("| X ");
                 this.playerO = new Player("| O ");
-                break;
-            case 2:
+            }
+            case 2 -> {
                 this.playerX = new Player("| X ");
                 this.playerO = new ArtificialPlayer("| O ");
-                break;
-            default:
+            }
+            default -> {
                 this.playerX = new ArtificialPlayer("| X ");
                 this.playerO = new ArtificialPlayer("| O ");
-                break;
+            }
         }
         // Instanciate the cells
         this.cells = new Cell[size][size];
@@ -47,7 +48,7 @@ public class TicTacToe {
         int[] coordinates = player.getCoordinates(size);
         int x = coordinates[0];
         int y = coordinates[1];
-        while (this.cells[x][y].representation == "| X " || this.cells[x][y].representation == "| O "){
+        while (Objects.equals(this.cells[x][y].representation, "| X ") || Objects.equals(this.cells[x][y].representation, "| O ")){
             System.out.println(visualization.RED_BOLD + "\nCell is already captured!!!" + visualization.ANSI_RESET);
             System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + player.representation);
             coordinates = player.getCoordinates(size);
@@ -114,10 +115,10 @@ public class TicTacToe {
     public ArrayList<ArrayList<String>> test_Array_Initialization() {
         // initialization test array
         ArrayList<ArrayList<String>> test = new ArrayList<>();
-        for (int i = 0; i < cells.length; i++) {
+        for (Cell[] cell : cells) {
             ArrayList<String> item = new ArrayList<>();
-            for (int j = 0; j < cells[i].length; j++) {
-                item.add(cells[i][j].cell_Print("test", visualization.BLACK_BOLD, visualization.ANSI_RESET));
+            for (Cell value : cell) {
+                item.add(value.cell_Print("test", visualization.BLACK_BOLD, visualization.ANSI_RESET));
             }
             test.add(item);
         }
@@ -128,17 +129,10 @@ public class TicTacToe {
         String result = "";
         for (int j = 0; j < test.get(i).size(); j++) {
             switch (version) {
-                case "V":
-                    testArray.add(test.get(j).get(i));
-                    break;
-                case "D":
-                    testArray.add(test.get(j).get(j));
-                    break;
-                case "D2":
-                    testArray.add(test.get(j).get((size - 1) - j));
-                    break;
-                default:
-                    System.out.println("error!!!");
+                case "V" -> testArray.add(test.get(j).get(i));
+                case "D" -> testArray.add(test.get(j).get(j));
+                case "D2" -> testArray.add(test.get(j).get((size - 1) - j));
+                default -> System.out.println("error!!!");
             }
         }
         if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
@@ -156,44 +150,42 @@ public class TicTacToe {
     public String test_For_Win() {
         //initialization testing
         ArrayList<ArrayList<String>> test = test_Array_Initialization();
-        String representation = "";
-        representation += "\n";
-        for (int k = 0; k < size ; k++) {
-            representation += "----";
-        }
-        String result = "";
+        StringBuilder representation = new StringBuilder();
+        representation.append("\n");
+        representation.append("----".repeat(Math.max(0, size)));
+        String result;
         // testing initialization
         for (int i = 0; i < test.size(); i++) {
             // horizontal
             if (!test.get(i).contains("|   ") && !test.get(i).contains("| X ")) {
                 end = true;
-                color_Checkout(representation, i, "H");
+                color_Checkout(representation.toString(), i, "H");
                 return "\nPlayer O Win by horizontal!!!";
             }
             if (!test.get(i).contains("|   ") && !test.get(i).contains("| O ")) {
                 end = true;
-                color_Checkout(representation, i, "H");
+                color_Checkout(representation.toString(), i, "H");
                 return "\nPlayer X Win by horizontal!!!";
             }
             // vertical
-            result = testing_V_D_D2(test, i, "V", representation, "vertical");
+            result = testing_V_D_D2(test, i, "V", representation.toString(), "vertical");
             // diagonal
-            if (result == "") {
-                result = testing_V_D_D2(test, i, "D", representation, "diagonal \"\\\"");
+            if (Objects.equals(result, "")) {
+                result = testing_V_D_D2(test, i, "D", representation.toString(), "diagonal \"\\\"");
             }
             // diagonal2
-            if (result == "") {
-                result = testing_V_D_D2(test, i, "D2", representation, "diagonal \"/\"");
+            if (result.equals("")) {
+                result = testing_V_D_D2(test, i, "D2", representation.toString(), "diagonal \"/\"");
             }
-            if (result != "") {
+            if (!result.equals("")) {
                 return result;
             }
         }
         // No win
         ArrayList<String> testNoWin = new ArrayList<>();
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[i].length; j++) {
-                testNoWin.add(cells[i][j].cell_Print("test", visualization.BLACK_BOLD, visualization.ANSI_RESET));
+        for (Cell[] cell : cells) {
+            for (Cell value : cell) {
+                testNoWin.add(value.cell_Print("test", visualization.BLACK_BOLD, visualization.ANSI_RESET));
             }
         }
         if (!testNoWin.contains("|   ")) {

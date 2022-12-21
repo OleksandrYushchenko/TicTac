@@ -11,11 +11,9 @@ public class View {
         """ + visualization.ANSI_RESET);
     }
     public void display_Game_Field(Cell[][] cells, int size){
-        String representation = "";
-        representation += "\n";
-        for (int k = 0; k < size ; k++) {
-            representation += "----";
-        }
+        StringBuilder representation = new StringBuilder();
+        representation.append("\n");
+        representation.append("----".repeat(Math.max(0, size)));
         for (int i = 0; i < size; i++) {
             System.out.print(representation);
             for (int j = 0; j < size; j++) {

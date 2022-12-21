@@ -1,7 +1,5 @@
 public class Visualization {
-    public void Visualization () {
-
-    }
+    public Visualization () {}
     // Reset custom style
     public final String ANSI_RESET = "\u001B[0m";
     public final String RED_BOLD = "\033[1;31m"; // RED
