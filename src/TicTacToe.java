@@ -1,10 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class TicTacToe {
-    Visualization visualization;
     InteractionUtilisateur interactionUtilisateur;
-    View view;
     int size;
     int typeOfGame;
     Cell[][] cells;
@@ -12,9 +11,7 @@ public class TicTacToe {
     Player playerO;
     Boolean end = false;
     public TicTacToe(){
-        this.visualization = new Visualization();
         this.interactionUtilisateur = new InteractionUtilisateur();
-        this.view  = new View();
         this.size = interactionUtilisateur.get_Size_Of_Game_Field();
         this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
         // Instanciate the player
@@ -43,15 +40,14 @@ public class TicTacToe {
     }
     // Ask for coordinates and capture the cell if possible
     public void get_Move_From_Player(Player player) {
-        System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + player.representation);
-
-        int[] coordinates = player.getCoordinates(size);
+        System.out.println(interactionUtilisateur.visualization.BLUE_UNDERLINED + "\nPlayer_" + interactionUtilisateur.visualization.ANSI_RESET + player.representation);
+        int[] coordinates = player.getCoordinates(size, interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
         int x = coordinates[0];
         int y = coordinates[1];
         while (Objects.equals(this.cells[x][y].representation, "| X ") || Objects.equals(this.cells[x][y].representation, "| O ")){
-            System.out.println(visualization.RED_BOLD + "\nCell is already captured!!!" + visualization.ANSI_RESET);
-            System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + player.representation);
-            coordinates = player.getCoordinates(size);
+            System.out.println(interactionUtilisateur.visualization.RED_BOLD + "\nCell is already captured!!!" + interactionUtilisateur.visualization.ANSI_RESET);
+            System.out.println(interactionUtilisateur.visualization.BLUE_UNDERLINED + "\nPlayer_" + interactionUtilisateur.visualization.ANSI_RESET + player.representation);
+            coordinates = player.getCoordinates(size, interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
             x = coordinates[0];
             y = coordinates[1];
         }
@@ -60,14 +56,14 @@ public class TicTacToe {
     // Show the TicTacToe
     public void player_Step(Player player1, Player player2){
         this.get_Move_From_Player(player1);
-        System.out.println(visualization.GREEN_BOLD + test_For_Win() + visualization.ANSI_RESET);
+        System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test_For_Win() + interactionUtilisateur.visualization.ANSI_RESET);
         if (!end) {
             this.get_Move_From_Player(player2);
-            System.out.println(visualization.GREEN_BOLD + test_For_Win() + visualization.ANSI_RESET);
+            System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test_For_Win() + interactionUtilisateur.visualization.ANSI_RESET);
         }
     }
     public void play () {
-        view.display_Game_Field(this.cells, size);
+        interactionUtilisateur.view.display_Game_Field(cells, size, interactionUtilisateur.visualization);
         while (!end){
             player_Step(playerX, playerO);
         }
@@ -82,50 +78,50 @@ public class TicTacToe {
                 switch (checkout) {
                     case "H":
                         if (h == i) {
-                            cells[i][j].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                            cells[i][j].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                            cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     case "V":
                         if (j == i) {
-                            cells[h][j].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                            cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                            cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     case "D":
                         if (j == h) {
-                            cells[j][h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                            cells[j][h].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                            cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     default:
                         if (j == (size - 1) - h) {
-                            cells[h][(size - 1) - h].cell_Print("printTest", visualization.RED_BOLD, visualization.ANSI_RESET);
+                            cells[h][(size - 1) - h].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            cells[h][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                            cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                 }
 
             }
         }
     }
-    public ArrayList<ArrayList<String>> test_Array_Initialization() {
+    public List<List<String>> test_Array_Initialization() {
         // initialization test array
-        ArrayList<ArrayList<String>> test = new ArrayList<>();
+        List<List<String>> test = new ArrayList<>();
         for (Cell[] cell : cells) {
-            ArrayList<String> item = new ArrayList<>();
+            List<String> item = new ArrayList<>();
             for (Cell value : cell) {
-                item.add(value.cell_Print("test", visualization.BLACK_BOLD, visualization.ANSI_RESET));
+                item.add(value.cell_Print("test", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
             }
             test.add(item);
         }
         return test;
     }
-    public String testing_V_D_D2 (ArrayList<ArrayList<String>> test, int i, String version, String representation, String by) {
-        ArrayList<String> testArray = new ArrayList<>();
+    public String testing_V_D_D2 (List<List<String>> test, int i, String version, String representation, String by) {
+        List<String> testArray = new ArrayList<>();
         String result = "";
         for (int j = 0; j < test.get(i).size(); j++) {
             switch (version) {
@@ -149,7 +145,7 @@ public class TicTacToe {
     }
     public String test_For_Win() {
         //initialization testing
-        ArrayList<ArrayList<String>> test = test_Array_Initialization();
+        List<List<String>> test = test_Array_Initialization();
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
         representation.append("----".repeat(Math.max(0, size)));
@@ -185,15 +181,15 @@ public class TicTacToe {
         ArrayList<String> testNoWin = new ArrayList<>();
         for (Cell[] cell : cells) {
             for (Cell value : cell) {
-                testNoWin.add(value.cell_Print("test", visualization.BLACK_BOLD, visualization.ANSI_RESET));
+                testNoWin.add(value.cell_Print("test", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
             }
         }
         if (!testNoWin.contains("|   ")) {
             end = true;
-            view.display_Game_Field(cells, size);
+            interactionUtilisateur.view.display_Game_Field(cells, size, interactionUtilisateur.visualization);
             return "\nNo winner!!!";
         }
-        view.display_Game_Field(cells, size);
+        interactionUtilisateur.view.display_Game_Field(cells, size, interactionUtilisateur.visualization);
         return "\nMake choose!!!";
     }
 }

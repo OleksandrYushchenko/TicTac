@@ -31,7 +31,7 @@ public class InteractionUtilisateur {
         boolean condition = true;
         while (condition) {
 
-            view.get_Type_Of_Game_List();
+            view.get_Type_Of_Game_List(visualization);
             try {
                 System.out.print(visualization.RED_BOLD + "Enter type of game - " + visualization.ANSI_RESET);
                 number = scanner.nextInt();
@@ -46,29 +46,29 @@ public class InteractionUtilisateur {
         }
         return number;
     }
-    public int[] getCoordinates(Integer size){
-        Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
-        int x = size + 1;
-        int y = size + 1;
-        while (x > size - 1 && y > size - 1) {
-            try {
-                System.out.print(visualization.RED_BOLD + "Enter coordinate X - " + visualization.ANSI_RESET);
-                x = sc.nextInt();
-                while (x > size - 1) {
-                    System.out.print(visualization.RED_BOLD + "Enter coordinate X " + "(x<=" + size + ") - " + visualization.ANSI_RESET);
-                    x = sc.nextInt();
-                }
-                System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y - " + visualization.ANSI_RESET);
-                y = sc.nextInt();
-                while (y > size - 1) {
-                    System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y " + "(y<=" + size + ") - " + visualization.ANSI_RESET);
-                    y = sc.nextInt();
-                }
-            } catch (Exception e) {
-                System.out.println("Entered data is not valid");
-                sc.next();
-            }
-        }
-        return new int[]{ x, y };
-    }
+//    public int[] getCoordinates(Integer size){
+//        Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
+//        int x = size + 1;
+//        int y = size + 1;
+//        while (x > size - 1 && y > size - 1) {
+//            try {
+//                System.out.print(visualization.RED_BOLD + "Enter coordinate X - " + visualization.ANSI_RESET);
+//                x = sc.nextInt();
+//                while (x > size - 1) {
+//                    System.out.print(visualization.RED_BOLD + "Enter coordinate X " + "(x<=" + size + ") - " + visualization.ANSI_RESET);
+//                    x = sc.nextInt();
+//                }
+//                System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y - " + visualization.ANSI_RESET);
+//                y = sc.nextInt();
+//                while (y > size - 1) {
+//                    System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y " + "(y<=" + size + ") - " + visualization.ANSI_RESET);
+//                    y = sc.nextInt();
+//                }
+//            } catch (Exception e) {
+//                System.out.println("Entered data is not valid");
+//                sc.next();
+//            }
+//        }
+//        return new int[]{ x, y };
+//    }
 }

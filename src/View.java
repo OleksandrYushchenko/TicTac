@@ -1,16 +1,13 @@
 public class View {
-    Visualization visualization;
-    public View () {
-        this.visualization = new Visualization();
-    }
-    public void get_Type_Of_Game_List(){
+    public View () {}
+    public void get_Type_Of_Game_List(Visualization visualization){
         System.out.println(visualization.GREEN_BOLD + """
         1. To Play with 2 human players;
         2. To Play against the machine;
         3. To watch two machines play together;
         """ + visualization.ANSI_RESET);
     }
-    public void display_Game_Field(Cell[][] cells, int size){
+    public void display_Game_Field(Cell[][] cells, int size, Visualization visualization){
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
         representation.append("----".repeat(Math.max(0, size)));
