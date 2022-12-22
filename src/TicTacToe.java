@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class TicTacToe {
-    InteractionUtilisateur interactionUtilisateur;
+    InteractionUtilisateur interactionUtilisateur; // view
     BoardGame boardGame;
     int size;
     int typeOfGame;
@@ -17,14 +17,14 @@ public class TicTacToe {
     }
     public void player_Step(Player player1, Player player2){
         interactionUtilisateur.get_Move_From_Player(player1, size, boardGame.cells);
-        interactionUtilisateur.view.display_Test(interactionUtilisateur.visualization, test());
+        interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         if (!end) {
             interactionUtilisateur.get_Move_From_Player(player2, size, boardGame.cells);
-            interactionUtilisateur.view.display_Test(interactionUtilisateur.visualization, test());
+            interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         }
     }
     public void play () {
-        interactionUtilisateur.view.display_Game_Field(boardGame.cells, size, interactionUtilisateur.visualization);
+        interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         while (!end){
             player_Step(boardGame.playerX, boardGame.playerO);
         }
@@ -141,10 +141,10 @@ public class TicTacToe {
         }
         if (!testNoWin.contains("|   ")) {
             end = true;
-            interactionUtilisateur.view.display_Game_Field(boardGame.cells, size, interactionUtilisateur.visualization);
+            interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
             return "\nNo winner!!!";
         }
-        interactionUtilisateur.view.display_Game_Field(boardGame.cells, size, interactionUtilisateur.visualization);
+        interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         return "\nMake choose!!!";
     }
 }
