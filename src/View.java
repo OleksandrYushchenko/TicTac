@@ -1,6 +1,6 @@
 public class View {
     public View () {}
-    public void get_Type_Of_Game_List(Visualization visualization){
+    public void getTypeOfGameList(Visualization visualization){
         System.out.println(visualization.GREEN_BOLD + """
         1. To Play with 2 human players;
         2. To Play against the machine;
@@ -17,7 +17,7 @@ public class View {
                 if (j % size == 0) {
                     System.out.print("\n");
                 }
-                cells[i][j].cell_Print("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                cells[i][j].cellPrint("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
             }
         }
     }

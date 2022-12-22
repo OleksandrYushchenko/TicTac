@@ -11,25 +11,25 @@ public class TicTacToe {
     Boolean end = false;
     public TicTacToe(){
         this.interactionUtilisateur = new InteractionUtilisateur();
-        this.size = interactionUtilisateur.get_Size_Of_Game_Field();
-        this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
+        this.size = interactionUtilisateur.getSizeOfGameField();
+        this.typeOfGame = interactionUtilisateur.getTypeOfGame();
         this.boardGame = new BoardGame(size, typeOfGame);
     }
-    public void player_Step(Player player1, Player player2){
-        interactionUtilisateur.get_Move_From_Player(player1, size, boardGame.cells);
+    public void playerStep(Player player1, Player player2){
+        interactionUtilisateur.getMoveFromPlayer(player1, size, boardGame.cells);
         interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         if (!end) {
-            interactionUtilisateur.get_Move_From_Player(player2, size, boardGame.cells);
+            interactionUtilisateur.getMoveFromPlayer(player2, size, boardGame.cells);
             interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         }
     }
     public void play () {
         interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         while (!end){
-            player_Step(boardGame.playerX, boardGame.playerO);
+            playerStep(boardGame.playerX, boardGame.playerO);
         }
     }
-    public void color_Checkout(String rep, Integer i, String checkout) {
+    public void colorCheckout(String rep, Integer i, String checkout) {
         for (int h = 0; h < size; h++) {
             System.out.print(rep);
             for (int j = 0; j < size; j++) {
@@ -39,48 +39,48 @@ public class TicTacToe {
                 switch (checkout) {
                     case "H":
                         if (h == i) {
-                            boardGame.cells[i][j].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[i][j].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     case "V":
                         if (j == i) {
-                            boardGame.cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     case "D":
                         if (j == h) {
-                            boardGame.cells[j][h].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[j][h].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     default:
                         if (j == (size - 1) - h) {
-                            boardGame.cells[h][(size - 1) - h].cell_Print("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][(size - 1) - h].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cell_Print("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                 }
 
             }
         }
     }
-    public String test_Method(int i, String version, String representation, String by) {
+    public String testMethod(int i, String version, String representation, String by) {
         List<String> testArray = new ArrayList<>();
         String result = "";
         if (Objects.equals(version, "H")) {
             if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| O ")).count() == boardGame.cells.length) {
                 end = true;
-                color_Checkout(representation, i, "H");
+                colorCheckout(representation, i, "H");
                 return "\nPlayer O Win by horizontal!!!";
             }
             if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| X ")).count() == boardGame.cells.length) {
                 end = true;
-                color_Checkout(representation, i, "H");
+                colorCheckout(representation, i, "H");
                 return "\nPlayer X Win by horizontal!!!";
             }
         } else {
@@ -94,12 +94,12 @@ public class TicTacToe {
             }
             if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
                 end = true;
-                color_Checkout(representation, i, version);
+                colorCheckout(representation, i, version);
                 result = "\nPlayer O Win by " + by + "!!!";
             }
             if (!testArray.contains("|   ") && !testArray.contains("| O ")) {
                 end = true;
-                color_Checkout(representation, i, version);
+                colorCheckout(representation, i, version);
                 result = "\nPlayer X Win by " + by + "!!!";
             }
         }
@@ -114,19 +114,19 @@ public class TicTacToe {
         // testing initialization
         for (int i = 0; i < boardGame.cells.length; i++) {
             // horizontal
-            result = test_Method(i, "H", representation.toString(), "horizontal");
+            result = testMethod(i, "H", representation.toString(), "horizontal");
 
             // vertical
             if (result.equals("")) {
-                result = test_Method(i, "V", representation.toString(), "vertical");
+                result = testMethod(i, "V", representation.toString(), "vertical");
             }
             // diagonal
             if (result.equals("")) {
-                result = test_Method(i, "D", representation.toString(), "diagonal \"\\\"");
+                result = testMethod(i, "D", representation.toString(), "diagonal \"\\\"");
             }
             // diagonal2
             if (result.equals("")) {
-                result = test_Method(i, "D2", representation.toString(), "diagonal \"/\"");
+                result = testMethod(i, "D2", representation.toString(), "diagonal \"/\"");
             }
             if (!result.equals("")) {
                 return result;
@@ -136,7 +136,7 @@ public class TicTacToe {
         ArrayList<String> testNoWin = new ArrayList<>();
         for (Cell[] cell : boardGame.cells) {
             for (Cell value : cell) {
-                testNoWin.add(value.cell_Print("test", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
+                testNoWin.add(value.cellPrint("test", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
             }
         }
         if (!testNoWin.contains("|   ")) {

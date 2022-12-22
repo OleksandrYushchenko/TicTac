@@ -6,7 +6,7 @@ abstract class Player {
         this.representation = pRepresentation;
     }
     public int[] getCoordinates(Integer size, InteractionUtilisateur interView) {
-        return interView.get_Coordinates(size, interView);
+        return interView.getCoordinates(size, interView);
     }
     public void captureCell(Cell cell) {
         if (Objects.equals(cell.representation, "|   ")) {

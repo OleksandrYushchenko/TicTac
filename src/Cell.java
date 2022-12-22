@@ -9,7 +9,7 @@ public class  Cell {
     public Cell(){
         this.representation = "|   ";
     }
-    public String cell_Print (String type, String startVisualisation, String endVisualisation) {
+    public String cellPrint(String type, String startVisualisation, String endVisualisation) {
         if (Objects.equals(type, "printTest")) {
             System.out.print(startVisualisation + this.representation + endVisualisation);
         }

@@ -8,7 +8,7 @@ public class InteractionUtilisateur {
         this.visualization = new Visualization();
         this.view = new View();
     }
-    public int get_Size_Of_Game_Field(){
+    public int getSizeOfGameField(){
         Scanner scanner = new Scanner(System.in);
         int number = 0;
         while (number < 3) {
@@ -25,12 +25,12 @@ public class InteractionUtilisateur {
         }
         return number;
     }
-    public int get_Type_Of_Game(){
+    public int getTypeOfGame(){
         Scanner scanner = new Scanner(System.in);
         int number = 4;
         boolean condition = true;
         while (condition) {
-            view.get_Type_Of_Game_List(visualization);
+            view.getTypeOfGameList(visualization);
             try {
                 System.out.print(visualization.RED_BOLD + "Enter type of game - " + visualization.ANSI_RESET);
                 number = scanner.nextInt();
@@ -45,7 +45,7 @@ public class InteractionUtilisateur {
         }
         return number;
     }
-    public void get_Move_From_Player(Player player, int size, Cell[][] cells) {
+    public void getMoveFromPlayer(Player player, int size, Cell[][] cells) {
         view.displayPlayerTurnName(visualization, player);
         int[] coordinates = player.getCoordinates(size, this);
         int x = coordinates[0];
@@ -59,7 +59,7 @@ public class InteractionUtilisateur {
         }
         player.captureCell(cells[x][y]);
     }
-    public int[] get_Coordinates(Integer size, InteractionUtilisateur interView){
+    public int[] getCoordinates(Integer size, InteractionUtilisateur interView){
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
         int x = size + 1;
         int y = size + 1;
