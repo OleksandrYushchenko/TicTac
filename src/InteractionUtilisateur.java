@@ -1,3 +1,4 @@
+import java.util.Objects;
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
@@ -46,29 +47,43 @@ public class InteractionUtilisateur {
         }
         return number;
     }
-//    public int[] getCoordinates(Integer size){
-//        Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
-//        int x = size + 1;
-//        int y = size + 1;
-//        while (x > size - 1 && y > size - 1) {
-//            try {
-//                System.out.print(visualization.RED_BOLD + "Enter coordinate X - " + visualization.ANSI_RESET);
-//                x = sc.nextInt();
-//                while (x > size - 1) {
-//                    System.out.print(visualization.RED_BOLD + "Enter coordinate X " + "(x<=" + size + ") - " + visualization.ANSI_RESET);
-//                    x = sc.nextInt();
-//                }
-//                System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y - " + visualization.ANSI_RESET);
-//                y = sc.nextInt();
-//                while (y > size - 1) {
-//                    System.out.print(visualization.GREEN_BOLD + "Enter coordinate Y " + "(y<=" + size + ") - " + visualization.ANSI_RESET);
-//                    y = sc.nextInt();
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Entered data is not valid");
-//                sc.next();
-//            }
-//        }
-//        return new int[]{ x, y };
-//    }
+    public void get_Move_From_Player(Player player, int size, Cell cells[][]) {
+        System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + player.representation);
+        int[] coordinates = player.getCoordinates(size, this);
+        int x = coordinates[0];
+        int y = coordinates[1];
+        while (Objects.equals(cells[x][y].representation, "| X ") || Objects.equals(cells[x][y].representation, "| O ")){
+            System.out.println(visualization.RED_BOLD + "\nCell is already captured!!!" + visualization.ANSI_RESET);
+            System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + player.representation);
+            coordinates = player.getCoordinates(size, this);
+            x = coordinates[0];
+            y = coordinates[1];
+        }
+        player.captureCell(cells[x][y]);
+    }
+    public int[] get_Coordinates(Integer size, InteractionUtilisateur interView){
+        Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
+        int x = size + 1;
+        int y = size + 1;
+        while (x > size - 1 && y > size - 1) {
+            try {
+                interView.view.display_Enter_X(interView.visualization);
+                x = sc.nextInt();
+                while (x > size - 1) {
+                    interView.view.display_Enter_correct_X(interView.visualization, size);
+                    x = sc.nextInt();
+                }
+                interView.view.display_Enter_Y(interView.visualization);
+                y = sc.nextInt();
+                while (y > size - 1) {
+                    interView.view.display_Enter_correct_Y(interView.visualization, size);
+                    y = sc.nextInt();
+                }
+            } catch (Exception e) {
+                System.out.println("Entered data is not valid");
+                sc.next();
+            }
+        }
+        return new int[]{ x, y };
+    }
 }

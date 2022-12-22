@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,59 +8,25 @@ public class TicTacToe {
     BoardGame boardGame;
     int size;
     int typeOfGame;
-    Player playerX;
-    Player playerO;
     Boolean end = false;
     public TicTacToe(){
         this.interactionUtilisateur = new InteractionUtilisateur();
         this.size = interactionUtilisateur.get_Size_Of_Game_Field();
-        this.boardGame = new BoardGame(size);
         this.typeOfGame = interactionUtilisateur.get_Type_Of_Game();
-        // Instanciate the player
-        switch (typeOfGame) {
-            case 1 -> {
-                this.playerX = new Player("| X ");
-                this.playerO = new Player("| O ");
-            }
-            case 2 -> {
-                this.playerX = new Player("| X ");
-                this.playerO = new ArtificialPlayer("| O ");
-            }
-            default -> {
-                this.playerX = new ArtificialPlayer("| X ");
-                this.playerO = new ArtificialPlayer("| O ");
-            }
-        }
-
+        this.boardGame = new BoardGame(size, typeOfGame);
     }
-    // Ask for coordinates and capture the cell if possible
-    public void get_Move_From_Player(Player player) {
-        System.out.println(interactionUtilisateur.visualization.BLUE_UNDERLINED + "\nPlayer_" + interactionUtilisateur.visualization.ANSI_RESET + player.representation);
-        int[] coordinates = player.getCoordinates(size, interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
-        int x = coordinates[0];
-        int y = coordinates[1];
-        while (Objects.equals(boardGame.cells[x][y].representation, "| X ") || Objects.equals(boardGame.cells[x][y].representation, "| O ")){
-            System.out.println(interactionUtilisateur.visualization.RED_BOLD + "\nCell is already captured!!!" + interactionUtilisateur.visualization.ANSI_RESET);
-            System.out.println(interactionUtilisateur.visualization.BLUE_UNDERLINED + "\nPlayer_" + interactionUtilisateur.visualization.ANSI_RESET + player.representation);
-            coordinates = player.getCoordinates(size, interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
-            x = coordinates[0];
-            y = coordinates[1];
-        }
-        player.captureCell( boardGame.cells[x][y]);
-    }
-    // Show the TicTacToe
     public void player_Step(Player player1, Player player2){
-        this.get_Move_From_Player(player1);
-        System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test_For_Win() + interactionUtilisateur.visualization.ANSI_RESET);
+        interactionUtilisateur.get_Move_From_Player(player1, size, boardGame.cells);
+        System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test() + interactionUtilisateur.visualization.ANSI_RESET);
         if (!end) {
-            this.get_Move_From_Player(player2);
-            System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test_For_Win() + interactionUtilisateur.visualization.ANSI_RESET);
+            interactionUtilisateur.get_Move_From_Player(player2, size, boardGame.cells);
+            System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test() + interactionUtilisateur.visualization.ANSI_RESET);
         }
     }
     public void play () {
         interactionUtilisateur.view.display_Game_Field(boardGame.cells, size, interactionUtilisateur.visualization);
         while (!end){
-            player_Step(playerX, playerO);
+            player_Step(boardGame.playerX, boardGame.playerO);
         }
     }
     public void color_Checkout(String rep, Integer i, String checkout) {
@@ -102,26 +69,14 @@ public class TicTacToe {
             }
         }
     }
-    public List<List<String>> test_Array_Initialization() {
-        // initialization test array
-        List<List<String>> test = new ArrayList<>();
-        for (Cell[] cell : boardGame.cells) {
-            List<String> item = new ArrayList<>();
-            for (Cell value : cell) {
-                item.add(value.cell_Print("test", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
-            }
-            test.add(item);
-        }
-        return test;
-    }
-    public String testing_V_D_D2 (List<List<String>> test, int i, String version, String representation, String by) {
+    public String test_Method(int i, String version, String representation, String by) {
         List<String> testArray = new ArrayList<>();
         String result = "";
-        for (int j = 0; j < test.get(i).size(); j++) {
+        for (int j = 0; j < boardGame.cells[i].length; j++) {
             switch (version) {
-                case "V" -> testArray.add(test.get(j).get(i));
-                case "D" -> testArray.add(test.get(j).get(j));
-                case "D2" -> testArray.add(test.get(j).get((size - 1) - j));
+                case "V" -> testArray.add(boardGame.cells[i][j].representation);
+                case "D" -> testArray.add(boardGame.cells[j][j].representation);
+                case "D2" -> testArray.add(boardGame.cells[j][size - 1 - j].representation);
                 default -> System.out.println("error!!!");
             }
         }
@@ -137,35 +92,34 @@ public class TicTacToe {
         }
         return result;
     }
-    public String test_For_Win() {
+    public String test() {
         //initialization testing
-        List<List<String>> test = test_Array_Initialization();
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
         representation.append("----".repeat(Math.max(0, size)));
         String result;
         // testing initialization
-        for (int i = 0; i < test.size(); i++) {
+        for (int i = 0; i < boardGame.cells.length; i++) {
             // horizontal
-            if (!test.get(i).contains("|   ") && !test.get(i).contains("| X ")) {
+            if (Arrays.stream(boardGame.cells[i]).filter(el -> el.representation == "| O ").count() == boardGame.cells.length) {
                 end = true;
                 color_Checkout(representation.toString(), i, "H");
                 return "\nPlayer O Win by horizontal!!!";
             }
-            if (!test.get(i).contains("|   ") && !test.get(i).contains("| O ")) {
+            if (Arrays.stream(boardGame.cells[i]).filter(el -> el.representation == "| X ").count() == boardGame.cells.length) {
                 end = true;
                 color_Checkout(representation.toString(), i, "H");
                 return "\nPlayer X Win by horizontal!!!";
             }
             // vertical
-            result = testing_V_D_D2(test, i, "V", representation.toString(), "vertical");
+            result = test_Method(i, "V", representation.toString(), "vertical");
             // diagonal
             if (Objects.equals(result, "")) {
-                result = testing_V_D_D2(test, i, "D", representation.toString(), "diagonal \"\\\"");
+                result = test_Method(i, "D", representation.toString(), "diagonal \"\\\"");
             }
             // diagonal2
             if (result.equals("")) {
-                result = testing_V_D_D2(test, i, "D2", representation.toString(), "diagonal \"/\"");
+                result = test_Method(i, "D2", representation.toString(), "diagonal \"/\"");
             }
             if (!result.equals("")) {
                 return result;

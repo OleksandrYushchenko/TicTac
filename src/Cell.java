@@ -2,7 +2,10 @@ import java.util.Objects;
 
 public class  Cell {
     String representation;
-
+    Player player;
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
     public Cell(){
         this.representation = "|   ";
     }

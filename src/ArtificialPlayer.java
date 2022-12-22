@@ -6,7 +6,7 @@ public class ArtificialPlayer extends Player{
         return (int) (
                 (Math.random() * (max - min)) + min);
     }
-    public int[] getCoordinates(Integer size, String startVisualisation, String endVisualisation){
+    public int[] getCoordinates(Integer size, InteractionUtilisateur interactionUtilisateur){
         int x;
         int y;
         x = getRandomNumber(0, size);

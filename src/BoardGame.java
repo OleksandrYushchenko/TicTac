@@ -1,7 +1,23 @@
 public class BoardGame {
     Cell[][] cells;
-
-    public BoardGame(int size){
+    Player playerX;
+    Player playerO;
+    public BoardGame(int size,int typeOfGame){
+        // Instanciate the player
+        switch (typeOfGame) {
+            case 1 -> {
+                this.playerX = new HumanPlayer("| X ");
+                this.playerO = new HumanPlayer("| O ");
+            }
+            case 2 -> {
+                this.playerX = new HumanPlayer("| X ");
+                this.playerO = new ArtificialPlayer("| O ");
+            }
+            default -> {
+                this.playerX = new ArtificialPlayer("| X ");
+                this.playerO = new ArtificialPlayer("| O ");
+            }
+        }
         // Instanciate the cells
         this.cells = new Cell[size][size];
         // Populate the cells (initialization)
