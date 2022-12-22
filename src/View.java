@@ -33,5 +33,8 @@ public class View {
     public void display_Enter_correct_Y (Visualization visualization, int size){
         System.out.print(visualization.RED_BOLD  + "Enter coordinate Y " + "(y<=" + size + ") - " + visualization.ANSI_RESET);
     }
+    public void display_Test (Visualization visualization, String test) {
+        System.out.println(visualization.GREEN_BOLD + test + visualization.ANSI_RESET);
+    }
 }
 

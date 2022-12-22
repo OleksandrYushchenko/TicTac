@@ -17,10 +17,10 @@ public class TicTacToe {
     }
     public void player_Step(Player player1, Player player2){
         interactionUtilisateur.get_Move_From_Player(player1, size, boardGame.cells);
-        System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test() + interactionUtilisateur.visualization.ANSI_RESET);
+        interactionUtilisateur.view.display_Test(interactionUtilisateur.visualization, test());
         if (!end) {
             interactionUtilisateur.get_Move_From_Player(player2, size, boardGame.cells);
-            System.out.println(interactionUtilisateur.visualization.GREEN_BOLD + test() + interactionUtilisateur.visualization.ANSI_RESET);
+            interactionUtilisateur.view.display_Test(interactionUtilisateur.visualization, test());
         }
     }
     public void play () {
@@ -72,23 +72,36 @@ public class TicTacToe {
     public String test_Method(int i, String version, String representation, String by) {
         List<String> testArray = new ArrayList<>();
         String result = "";
-        for (int j = 0; j < boardGame.cells[i].length; j++) {
-            switch (version) {
-                case "V" -> testArray.add(boardGame.cells[i][j].representation);
-                case "D" -> testArray.add(boardGame.cells[j][j].representation);
-                case "D2" -> testArray.add(boardGame.cells[j][size - 1 - j].representation);
-                default -> System.out.println("error!!!");
+        if (Objects.equals(version, "H")) {
+            if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| O ")).count() == boardGame.cells.length) {
+                end = true;
+                color_Checkout(representation, i, "H");
+                return "\nPlayer O Win by horizontal!!!";
             }
-        }
-        if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
-            end = true;
-            color_Checkout(representation, i, version);
-            result = "\nPlayer O Win by " + by + "!!!";
-        }
-        if (!testArray.contains("|   ") && !testArray.contains("| O ")) {
-            end = true;
-            color_Checkout(representation, i, version);
-            result = "\nPlayer X Win by " + by + "!!!";
+            if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| X ")).count() == boardGame.cells.length) {
+                end = true;
+                color_Checkout(representation, i, "H");
+                return "\nPlayer X Win by horizontal!!!";
+            }
+        } else {
+            for (int j = 0; j < boardGame.cells.length; j++) {
+                switch (version) {
+                    case "V" -> testArray.add(boardGame.cells[j][i].representation);
+                    case "D" -> testArray.add(boardGame.cells[j][j].representation);
+                    case "D2" -> testArray.add(boardGame.cells[j][size - 1 - j].representation);
+                    default -> System.out.println("error!!!");
+                }
+            }
+            if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
+                end = true;
+                color_Checkout(representation, i, version);
+                result = "\nPlayer O Win by " + by + "!!!";
+            }
+            if (!testArray.contains("|   ") && !testArray.contains("| O ")) {
+                end = true;
+                color_Checkout(representation, i, version);
+                result = "\nPlayer X Win by " + by + "!!!";
+            }
         }
         return result;
     }
@@ -101,20 +114,14 @@ public class TicTacToe {
         // testing initialization
         for (int i = 0; i < boardGame.cells.length; i++) {
             // horizontal
-            if (Arrays.stream(boardGame.cells[i]).filter(el -> el.representation == "| O ").count() == boardGame.cells.length) {
-                end = true;
-                color_Checkout(representation.toString(), i, "H");
-                return "\nPlayer O Win by horizontal!!!";
-            }
-            if (Arrays.stream(boardGame.cells[i]).filter(el -> el.representation == "| X ").count() == boardGame.cells.length) {
-                end = true;
-                color_Checkout(representation.toString(), i, "H");
-                return "\nPlayer X Win by horizontal!!!";
-            }
+            result = test_Method(i, "H", representation.toString(), "horizontal");
+
             // vertical
-            result = test_Method(i, "V", representation.toString(), "vertical");
+            if (result.equals("")) {
+                result = test_Method(i, "V", representation.toString(), "vertical");
+            }
             // diagonal
-            if (Objects.equals(result, "")) {
+            if (result.equals("")) {
                 result = test_Method(i, "D", representation.toString(), "diagonal \"\\\"");
             }
             // diagonal2
