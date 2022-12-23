@@ -41,16 +41,48 @@ public class TicTacToe {
         }
     }
     /**
+     * Method which used for capture cell after player step
+     * @param player player
+     * @param size int - size of game field
+     * @param cells game.model.Cell[][] cells - game field
+     */
+    public void playerMove(Player player, int size, Cell[][] cells) {
+        interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
+        int[] intArray = new int[2];
+        intArray[0] = 1;
+        intArray[1] = 2;
+        int[] coordinates;
+        if (player.playerMove(intArray, size).length == 0) {
+            coordinates = player.playerMove(interactionUtilisateur.getCoordinates(size), size);
+        } else {
+            coordinates = player.playerMove(intArray, size);
+        }
+        int x = coordinates[0];
+        int y = coordinates[1];
+        while (Objects.equals(cells[x][y].representation, "| X ") || Objects.equals(cells[x][y].representation, "| O ")){
+            interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nCell is already captured!!!");
+            interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
+            if (player.playerMove(intArray, size).length == 0) {
+                coordinates = player.playerMove(interactionUtilisateur.getCoordinates(size), size);
+            } else {
+                coordinates = player.playerMove(intArray, size);
+            }
+            x = coordinates[0];
+            y = coordinates[1];
+        }
+        player.captureCell(cells, x, y);
+    }
+    /**
      * Method which calling while Game is not finished. Interact with game.view.InteractionUtilisateur & game.view.View class through
      * using methods getMoveFromPlayer & displayTest
      * @param player1 player
      * @param player2 player
      */
-    private void playerStep(Player player1, Player player2){
-        interactionUtilisateur.getMoveFromPlayer(player1, size, boardGame.cells);
+    private void stepOfGame(Player player1, Player player2){
+        playerMove(player1, size, boardGame.cells);
         interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         if (!end) {
-            interactionUtilisateur.getMoveFromPlayer(player2, size, boardGame.cells);
+            playerMove(player2, size, boardGame.cells);
             interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         }
     }
@@ -61,7 +93,7 @@ public class TicTacToe {
     public void play () {
         displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         while (!end){
-            playerStep(boardGame.playerX, boardGame.playerO);
+            stepOfGame(boardGame.playerX, boardGame.playerO);
         }
     }
 
