@@ -1,9 +1,12 @@
+package game.view;
+import game.model.*;
+
 import java.util.Objects;
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
-    Visualization visualization;
-    View view;
+    public Visualization visualization;
+    public View view;
     public InteractionUtilisateur(){
         this.visualization = new Visualization();
         this.view = new View();
@@ -59,16 +62,16 @@ public class InteractionUtilisateur {
      * Method which used for capture cell after player step
      * @param player player
      * @param size int - size of game field
-     * @param cells Cell[][] cells - game field
+     * @param cells game.model.Cell[][] cells - game field
      */
     public void getMoveFromPlayer(Player player, int size, Cell[][] cells) {
-        view.displayPlayerTurnName(visualization, player);
+        view.displayPlayerTurnName(visualization, player.representation);
         int[] coordinates = player.getCoordinates(size, this);
         int x = coordinates[0];
         int y = coordinates[1];
         while (Objects.equals(cells[x][y].representation, "| X ") || Objects.equals(cells[x][y].representation, "| O ")){
             view.displayText(visualization, "\nCell is already captured!!!");
-            view.displayPlayerTurnName(visualization, player);
+            view.displayPlayerTurnName(visualization, player.representation);
             coordinates = player.getCoordinates(size, this);
             x = coordinates[0];
             y = coordinates[1];
@@ -79,7 +82,7 @@ public class InteractionUtilisateur {
     /**
      * Method which used for get coordinates from Human player(Scanner...)
      * @param size int game field size
-     * @param interView object instance of InteractionUtilisateur class
+     * @param interView object instance of game.view.InteractionUtilisateur class
      * @return int[] with 2 values - coordinates of player step
      */
     public int[] getCoordinates(Integer size, InteractionUtilisateur interView){

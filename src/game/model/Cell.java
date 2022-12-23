@@ -1,15 +1,17 @@
+package game.model;
+
 import java.util.Objects;
 
 public class  Cell {
-    String representation;
-    Player player;
+    public String representation;
+    public Player player;
 
     public Cell(){
         this.representation = "|   ";
     }
 
     /**
-     * Sets owner of Cell after player move
+     * Sets owner of game.model.Cell after player move
      * @param player player
      */
     public void setPlayer(Player player) {

@@ -1,3 +1,5 @@
+package game.view;
+
 public class Visualization {
     public Visualization () {}
     // Reset custom style

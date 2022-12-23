@@ -1,14 +1,19 @@
+package game.conroller;
+import game.model.*;
+import game.view.*;
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class TicTacToe {
-    InteractionUtilisateur interactionUtilisateur; // view
-    BoardGame boardGame;
-    int size;
-    int typeOfGame;
-    Boolean end = false;
+    private InteractionUtilisateur interactionUtilisateur; // view
+    private BoardGame boardGame;
+    private int size;
+    private int typeOfGame;
+    private Boolean end = false;
     public TicTacToe(){
         this.interactionUtilisateur = new InteractionUtilisateur();
         this.size = interactionUtilisateur.getSizeOfGameField();
@@ -16,7 +21,27 @@ public class TicTacToe {
         this.boardGame = new BoardGame(size, typeOfGame);
     }
     /**
-     * Method which calling while Game is not finished. Interact with InteractionUtilisateur & View class through
+     * Display game field
+     * @param cells game field
+     * @param size size of game field
+     * @param visualization styles for System out print(ln)
+     */
+    public void displayGameField(Cell[][] cells, int size, Visualization visualization){
+        StringBuilder representation = new StringBuilder();
+        representation.append("\n");
+        representation.append("----".repeat(Math.max(0, size)));
+        for (int i = 0; i < size; i++) {
+            System.out.print(representation);
+            for (int j = 0; j < size; j++) {
+                if (j % size == 0) {
+                    System.out.print("\n");
+                }
+                cells[i][j].cellPrint("Win", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+            }
+        }
+    }
+    /**
+     * Method which calling while Game is not finished. Interact with game.view.InteractionUtilisateur & game.view.View class through
      * using methods getMoveFromPlayer & displayTest
      * @param player1 player
      * @param player2 player
@@ -31,10 +56,10 @@ public class TicTacToe {
     }
 
     /**
-     * Call method displayGameField from View class & while not end of game calling playerStep
+     * Call method displayGameField from game.view.View class & while not end of game calling playerStep
      */
     public void play () {
-        interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
+        displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         while (!end){
             playerStep(boardGame.playerX, boardGame.playerO);
         }
@@ -172,10 +197,10 @@ public class TicTacToe {
         }
         if (!testNoWin.contains("|   ")) {
             end = true;
-            interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
+            displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
             return "\nNo winner!!!";
         }
-        interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
+        displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         return "\nMake choose!!!";
     }
 }

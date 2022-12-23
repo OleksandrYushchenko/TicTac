@@ -1,16 +1,20 @@
+package game.model;
+
+import game.view.InteractionUtilisateur;
+
 import java.util.Objects;
 
-abstract class Player {
-    String representation;
+public abstract class Player {
+    public String representation;
     public Player(String pRepresentation){ // Constructor is always mandatory
         this.representation = pRepresentation;
     }
 
     /**
-     * This is method of abstract class which just call getCoordinates method from InteractionUtilisateur object instance
+     * This is method of abstract class which just call getCoordinates method from game.view.InteractionUtilisateur object instance
      * @param size int - game field size
-     * @param interView InteractionUtilisateur object instance
-     * @return getCoordinates method from InteractionUtilisateur object instance
+     * @param interView game.view.InteractionUtilisateur object instance
+     * @return getCoordinates method from game.view.InteractionUtilisateur object instance
      */
     public int[] getCoordinates(Integer size, InteractionUtilisateur interView) {
         return interView.getCoordinates(size, interView);

@@ -1,7 +1,9 @@
+package game.model;
+
 public class BoardGame {
-    Cell[][] cells;
-    Player playerX;
-    Player playerO;
+    public Cell[][] cells;
+    public Player playerX;
+    public Player playerO;
     public BoardGame(int size,int typeOfGame){
         // Instanciate the player
         switch (typeOfGame) {
