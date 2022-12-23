@@ -1,5 +1,10 @@
 public class View {
     public View () {}
+
+    /**
+     * Display list of game types
+     * @param visualization styles for list
+     */
     public void getTypeOfGameList(Visualization visualization){
         System.out.println(visualization.GREEN_BOLD + """
         1. To Play with 2 human players;
@@ -7,6 +12,13 @@ public class View {
         3. To watch two machines play together;
         """ + visualization.ANSI_RESET);
     }
+
+    /**
+     * Display game field
+     * @param cells game field
+     * @param size size of game field
+     * @param visualization styles for System out print(ln)
+     */
     public void displayGameField(Cell[][] cells, int size, Visualization visualization){
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
@@ -17,7 +29,7 @@ public class View {
                 if (j % size == 0) {
                     System.out.print("\n");
                 }
-                cells[i][j].cellPrint("printTest", visualization.WHITE_BOLD, visualization.ANSI_RESET);
+                cells[i][j].cellPrint("Win", visualization.WHITE_BOLD, visualization.ANSI_RESET);
             }
         }
     }

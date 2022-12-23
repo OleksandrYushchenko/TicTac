@@ -8,12 +8,16 @@ public class InteractionUtilisateur {
         this.visualization = new Visualization();
         this.view = new View();
     }
+    /**
+     * Method which used for get game field size
+     * @return int - field size
+     */
     public int getSizeOfGameField(){
         Scanner scanner = new Scanner(System.in);
         int number = 0;
         while (number < 3) {
             try {
-                view.displayText(visualization, "Enter size of game field - ");
+                view.displayText(visualization, "\nEnter size of game field - ");
                 number = scanner.nextInt();
                 if (number < 3) {
                     view.displayText(visualization, "Enter number >= 3");
@@ -25,6 +29,11 @@ public class InteractionUtilisateur {
         }
         return number;
     }
+
+    /**
+     * Method which used for get type of game(Human - Human, Human - Machine, Machine - Machine)
+     * @return in - type of game
+     */
     public int getTypeOfGame(){
         Scanner scanner = new Scanner(System.in);
         int number = 4;
@@ -45,6 +54,13 @@ public class InteractionUtilisateur {
         }
         return number;
     }
+
+    /**
+     * Method which used for capture cell after player step
+     * @param player player
+     * @param size int - size of game field
+     * @param cells Cell[][] cells - game field
+     */
     public void getMoveFromPlayer(Player player, int size, Cell[][] cells) {
         view.displayPlayerTurnName(visualization, player);
         int[] coordinates = player.getCoordinates(size, this);
@@ -59,6 +75,13 @@ public class InteractionUtilisateur {
         }
         player.captureCell(cells[x][y]);
     }
+
+    /**
+     * Method which used for get coordinates from Human player(Scanner...)
+     * @param size int game field size
+     * @param interView object instance of InteractionUtilisateur class
+     * @return int[] with 2 values - coordinates of player step
+     */
     public int[] getCoordinates(Integer size, InteractionUtilisateur interView){
         Scanner sc= new Scanner(System.in);    //System.in is a standard input stream
         int x = size + 1;

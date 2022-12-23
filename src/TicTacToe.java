@@ -15,7 +15,14 @@ public class TicTacToe {
         this.typeOfGame = interactionUtilisateur.getTypeOfGame();
         this.boardGame = new BoardGame(size, typeOfGame);
     }
-    public void playerStep(Player player1, Player player2){
+
+    /**
+     * Method which calling while Game is not finished. Interact with InteractionUtilisateur & View class through
+     * using methods getMoveFromPlayer & displayTest
+     * @param player1 player
+     * @param player2 player
+     */
+    private void playerStep(Player player1, Player player2){
         interactionUtilisateur.getMoveFromPlayer(player1, size, boardGame.cells);
         interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         if (!end) {
@@ -23,13 +30,24 @@ public class TicTacToe {
             interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         }
     }
+
+    /**
+     * Call method displayGameField from View class & while not end of game calling playerStep
+     */
     public void play () {
         interactionUtilisateur.view.displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
         while (!end){
             playerStep(boardGame.playerX, boardGame.playerO);
         }
     }
-    public void colorCheckout(String rep, Integer i, String checkout) {
+
+    /**
+     *
+     * @param rep "----" string which passed for cell dividing
+     * @param i int parameter passing as step of iteration from loop where that method will be called
+     * @param checkout String - type of winner direction
+     */
+    private void colorCheckout(String rep, Integer i, String checkout) {
         for (int h = 0; h < size; h++) {
             System.out.print(rep);
             for (int j = 0; j < size; j++) {
@@ -39,37 +57,46 @@ public class TicTacToe {
                 switch (checkout) {
                     case "H":
                         if (h == i) {
-                            boardGame.cells[i][j].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[i][j].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     case "V":
                         if (j == i) {
-                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     case "D":
                         if (j == h) {
-                            boardGame.cells[j][h].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[j][h].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                         break;
                     default:
                         if (j == (size - 1) - h) {
                             boardGame.cells[h][(size - 1) - h].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
-                            boardGame.cells[h][j].cellPrint("printTest", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
                 }
 
             }
         }
     }
-    public String testMethod(int i, String version, String representation, String by) {
+
+    /**
+     * test method which includes all action to check board on Win
+     * @param i int  - step of iteration from loop where this method will be called
+     * @param version String - version of testing H - horizontal, V - vertical...
+     * @param representation String - parameter(rep) which needed colorCheckout method inside this Method
+     * @param by String - text which will be placed inside Winner result line
+     * @return String - Winner result line
+     */
+    private String testMethod(int i, String version, String representation, String by) {
         List<String> testArray = new ArrayList<>();
         String result = "";
         if (Objects.equals(version, "H")) {
@@ -105,7 +132,12 @@ public class TicTacToe {
         }
         return result;
     }
-    public String test() {
+
+    /**
+     * Method which call testMethod while there is no Winner or Game finished
+     * @return result testMethod || "No winner!!!" || "Make choose!!!"
+     */
+    private String test() {
         //initialization testing
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
@@ -136,7 +168,7 @@ public class TicTacToe {
         ArrayList<String> testNoWin = new ArrayList<>();
         for (Cell[] cell : boardGame.cells) {
             for (Cell value : cell) {
-                testNoWin.add(value.cellPrint("test", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
+                testNoWin.add(value.cellPrint("noWin", interactionUtilisateur.visualization.BLACK_BOLD, interactionUtilisateur.visualization.ANSI_RESET));
             }
         }
         if (!testNoWin.contains("|   ")) {

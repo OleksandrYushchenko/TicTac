@@ -2,15 +2,22 @@ public class ArtificialPlayer extends Player{
     public ArtificialPlayer (String pRepresnetation){
         super(pRepresnetation);
     }
-    public int getRandomNumber(int min, int max) {
+    private int getRandomNumber(int max) {
         return (int) (
-                (Math.random() * (max - min)) + min);
+                (Math.random() * (max)));
     }
+
+    /**
+     * return int[] with 2 values - coordinates of player move
+     * @param size int - size of gameBoard
+     * @param interactionUtilisateur - instance of InteractionUtilisateur class
+     * @return int[] length 2 - random coordinates
+     */
     public int[] getCoordinates(Integer size, InteractionUtilisateur interactionUtilisateur){
         int x;
         int y;
-        x = getRandomNumber(0, size);
-        y = getRandomNumber(0, size);
+        x = getRandomNumber(size);
+        y = getRandomNumber(size);
         return new int[] {x, y};
     }
 }
