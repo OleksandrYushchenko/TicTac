@@ -77,7 +77,7 @@ public class TicTacToe {
                         break;
                     default:
                         if (j == (size - 1) - h) {
-                            boardGame.cells[h][(size - 1) - h].cellPrint("printTest", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.cells[h][(size - 1) - h].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
                             boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
