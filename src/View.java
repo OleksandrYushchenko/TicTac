@@ -1,18 +1,16 @@
 public class View {
     public View () {}
-
     /**
      * Display list of game types
      * @param visualization styles for list
      */
     public void getTypeOfGameList(Visualization visualization){
         System.out.println(visualization.GREEN_BOLD + """
-        1. To Play with 2 human players;
+        \n1. To Play with 2 human players;
         2. To Play against the machine;
         3. To watch two machines play together;
         """ + visualization.ANSI_RESET);
     }
-
     /**
      * Display game field
      * @param cells game field

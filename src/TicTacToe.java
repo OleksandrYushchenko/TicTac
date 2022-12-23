@@ -15,7 +15,6 @@ public class TicTacToe {
         this.typeOfGame = interactionUtilisateur.getTypeOfGame();
         this.boardGame = new BoardGame(size, typeOfGame);
     }
-
     /**
      * Method which calling while Game is not finished. Interact with InteractionUtilisateur & View class through
      * using methods getMoveFromPlayer & displayTest

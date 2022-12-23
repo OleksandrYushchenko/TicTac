@@ -88,13 +88,13 @@ public class InteractionUtilisateur {
         int y = size + 1;
         while (x > size - 1 && y > size - 1) {
             try {
-                interView.view.displayText(interView.visualization, "Enter coordinate X - ");
+                interView.view.displayText(interView.visualization, "\nEnter coordinate X - ");
                 x = sc.nextInt();
                 while (x > size - 1) {
                     interView.view.displayEnterCorrectX(interView.visualization, size);
                     x = sc.nextInt();
                 }
-                interView.view.displayText(interView.visualization, "Enter coordinate O - ");
+                interView.view.displayText(interView.visualization, "\nEnter coordinate Y - ");
                 y = sc.nextInt();
                 while (y > size - 1) {
                     interView.view.displayEnterCorrectY(interView.visualization, size);
