@@ -19,8 +19,8 @@ abstract public class GameController {
     private Boolean end = false;
     public GameController(){
         this.interactionUtilisateur = new InteractionUtilisateur();
-        this.size = interactionUtilisateur.in.askSizeOfGame();
-        this.typeOfGame = interactionUtilisateur.in.askTypeOfGame();
+        this.size = interactionUtilisateur.askSizeOfGame();
+        this.typeOfGame = interactionUtilisateur.askTypeOfGame();
         this.boardGame = new BoardGame(size, typeOfGame);
     }
     /**
@@ -53,7 +53,7 @@ abstract public class GameController {
         interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
         int[] coordinates;
         if (!player.isArtificial()) {
-            coordinates = player.playerMove(interactionUtilisateur.in.askCoordinates(size), size);
+            coordinates = player.playerMove(interactionUtilisateur.askCoordinates(size), size);
         } else {
             coordinates = player.playerMove(new int[2], size);
         }
@@ -63,7 +63,7 @@ abstract public class GameController {
             interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nCell is already captured!!!");
             interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
             if (!player.isArtificial()) {
-                coordinates = player.playerMove(interactionUtilisateur.in.askCoordinates(size), size);
+                coordinates = player.playerMove(interactionUtilisateur.askCoordinates(size), size);
             } else {
                 coordinates = player.playerMove(new int[2], size);
             }
