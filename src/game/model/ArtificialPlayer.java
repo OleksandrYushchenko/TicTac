@@ -4,6 +4,9 @@ public class ArtificialPlayer extends Player {
     public ArtificialPlayer (String pRepresnetation){
         super(pRepresnetation);
     }
+    public boolean isArtificial (){
+        return true;
+    }
     private int getRandomNumber(int max) {
         return (int) (
                 (Math.random() * (max)));

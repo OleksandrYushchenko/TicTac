@@ -7,12 +7,10 @@ public abstract class Player {
     public Player(String pRepresentation){ // Constructor is always mandatory
         this.representation = pRepresentation;
     }
+    public boolean isArtificial (){
+        return false;
+    }
 
-    /**
-     * This is method of abstract class which just call getCoordinates method from game.view.InteractionUtilisateur object instance
-     * @param size int - game field size
-     * @return getCoordinates method from game.view.InteractionUtilisateur object instance
-     */
     public int[] playerMove(int[] arr, int size) {
         return arr;
     }

@@ -2,17 +2,16 @@ package game.conroller;
 import game.model.*;
 import game.view.*;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class TicTacToe {
-    private InteractionUtilisateur interactionUtilisateur; // view
-    private BoardGame boardGame;
-    private int size;
-    private int typeOfGame;
+    final InteractionUtilisateur interactionUtilisateur; // view
+    final BoardGame boardGame;
+    final int size;
+    final int typeOfGame;
     private Boolean end = false;
     public TicTacToe(){
         this.interactionUtilisateur = new InteractionUtilisateur();
@@ -48,24 +47,21 @@ public class TicTacToe {
      */
     public void playerMove(Player player, int size, Cell[][] cells) {
         interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
-        int[] intArray = new int[2];
-        intArray[0] = 1;
-        intArray[1] = 2;
         int[] coordinates;
-        if (player.playerMove(intArray, size).length == 0) {
+        if (!player.isArtificial()) {
             coordinates = player.playerMove(interactionUtilisateur.getCoordinates(size), size);
         } else {
-            coordinates = player.playerMove(intArray, size);
+            coordinates = player.playerMove(new int[2], size);
         }
         int x = coordinates[0];
         int y = coordinates[1];
         while (Objects.equals(cells[x][y].representation, "| X ") || Objects.equals(cells[x][y].representation, "| O ")){
             interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nCell is already captured!!!");
             interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
-            if (player.playerMove(intArray, size).length == 0) {
+            if (!player.isArtificial()) {
                 coordinates = player.playerMove(interactionUtilisateur.getCoordinates(size), size);
             } else {
-                coordinates = player.playerMove(intArray, size);
+                coordinates = player.playerMove(new int[2], size);
             }
             x = coordinates[0];
             y = coordinates[1];
@@ -73,8 +69,7 @@ public class TicTacToe {
         player.captureCell(cells, x, y);
     }
     /**
-     * Method which calling while Game is not finished. Interact with game.view.InteractionUtilisateur & game.view.View class through
-     * using methods getMoveFromPlayer & displayTest
+     * Method which calling playerMove while Game is not finished. Interact with game.view.
      * @param player1 player
      * @param player2 player
      */
@@ -88,7 +83,7 @@ public class TicTacToe {
     }
 
     /**
-     * Call method displayGameField from game.view.View class & while not end of game calling playerStep
+     * Call method displayGameField & while not end of game calling stepOfGame
      */
     public void play () {
         displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
