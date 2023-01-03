@@ -11,13 +11,11 @@ import java.util.*;
 abstract public class GameController {
     private final InteractionUtilisateur interactionUtilisateur; // view
     private final BoardGame boardGame;
-    private final int size;
-    private Boolean end = false;
+    private int size;
+    private int typeOfGame;
     public GameState gs;
     public GameController(){
         this.interactionUtilisateur = new InteractionUtilisateur();
-        this.size = interactionUtilisateur.askSizeOfGame();
-        int typeOfGame = interactionUtilisateur.askTypeOfGame();
         this.boardGame = new BoardGame(size, typeOfGame);
     }
     /**
@@ -75,11 +73,13 @@ abstract public class GameController {
      * @param player2 player
      */
     private void stepOfGame(Player player1, Player player2){
-        playerMove(player1, size, boardGame.cells);
-        interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
-        if (!end) {
+        if (gs == GameState.Play) {
+            playerMove(player1, size, boardGame.cells);
+            interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
+        }
+        if (gs == GameState.Play) {
             playerMove(player2, size, boardGame.cells);
-            interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
+            interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
         }
     }
     enum GameState {
@@ -93,17 +93,18 @@ abstract public class GameController {
         Y,
         N
     }
-    private static GameState confirmReplay(GameState gs) {
+    private GameState confirmReplay(GameState gs) {
         Scanner sc = new Scanner(System.in);
-        String line = sc.nextLine();
-        ConfirmReplay c = ConfirmReplay.valueOf(line.toUpperCase());
-        switch (c){
-            case Y:
-                gs = GameState.Init;
-                break;
-            case N:
-                gs = GameState.Quit;
-                break;
+        String line;
+        try {
+            line = sc.nextLine();
+            ConfirmReplay c = ConfirmReplay.valueOf(line.toUpperCase());
+            switch (c) {
+                case Y -> gs = GameState.Init;
+                case N -> gs = GameState.Quit;
+            }
+        } catch (Exception e) {
+            interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "Entered Data invalid. Enter y/n");
         }
         return gs;
     }
@@ -112,10 +113,25 @@ abstract public class GameController {
      * Call method displayGameField & while not end of game calling stepOfGame
      */
     public void play () {
-        displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
-        while (!end){
-            stepOfGame(boardGame.playerX, boardGame.playerO);
+        gs = GameState.Init;
+        while (gs != GameState.Quit){
+            switch (gs) {
+                case Init -> {
+                    size = interactionUtilisateur.askSizeOfGame();
+                    typeOfGame = interactionUtilisateur.askTypeOfGame();
+                    boardGame.resetBoard(size, typeOfGame);
+                    displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
+                    gs = GameState.Play;
+                }
+                case Play -> stepOfGame(boardGame.playerX, boardGame.playerO);
+                case Win, NoWin -> {
+                    interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nReplay? y/n\n");
+                    gs = confirmReplay(gs);
+                }
+                default -> System.out.println("Error");
+            }
         }
+        System.out.println("Bye!!");
     }
 
     /**
@@ -179,12 +195,10 @@ abstract public class GameController {
         String result = "";
         if (Objects.equals(version, "H")) {
             if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| O ")).count() == boardGame.cells.length) {
-                end = true;
                 colorCheckout(representation, i, "H");
                 return "\nPlayer O Win by horizontal!!!";
             }
             if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| X ")).count() == boardGame.cells.length) {
-                end = true;
                 colorCheckout(representation, i, "H");
                 return "\nPlayer X Win by horizontal!!!";
             }
@@ -198,12 +212,10 @@ abstract public class GameController {
                 }
             }
             if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
-                end = true;
                 colorCheckout(representation, i, version);
                 result = "\nPlayer O Win by " + by + "!!!";
             }
             if (!testArray.contains("|   ") && !testArray.contains("| O ")) {
-                end = true;
                 colorCheckout(representation, i, version);
                 result = "\nPlayer X Win by " + by + "!!!";
             }
@@ -215,7 +227,7 @@ abstract public class GameController {
      * Method which call testMethod while there is no Winner or Game finished
      * @return result testMethod || "No winner!!!" || "Make choose!!!"
      */
-    private String test() {
+    private String testForWin() {
         //initialization testing
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
@@ -239,6 +251,7 @@ abstract public class GameController {
                 result = testMethod(i, "D2", representation.toString(), "diagonal \"/\"");
             }
             if (!result.equals("")) {
+                gs = GameState.Win;
                 return result;
             }
         }
@@ -250,7 +263,7 @@ abstract public class GameController {
             }
         }
         if (!testNoWin.contains("|   ")) {
-            end = true;
+            gs = GameState.NoWin;
             displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
             return "\nNo winner!!!";
         }

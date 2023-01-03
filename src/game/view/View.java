@@ -24,8 +24,9 @@ public class View {
     public void displayPlayerTurnName(Visualization visualization, String playerRepresentation) {
         System.out.println(visualization.BLUE_UNDERLINED + "\nPlayer_" + visualization.ANSI_RESET + playerRepresentation);
     }
-    public void displayTest(Visualization visualization, String test) {
+    public String displayTest(Visualization visualization, String test) {
         System.out.println(visualization.GREEN_BOLD + test + visualization.ANSI_RESET);
+        return test;
     }
 }
 
