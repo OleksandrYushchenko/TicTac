@@ -67,21 +67,6 @@ abstract public class GameController {
         }
         player.captureCell(cells, x, y);
     }
-    /**
-     * Method which calling playerMove while Game is not finished. Interact with game.view.
-     * @param player1 player
-     * @param player2 player
-     */
-    private void stepOfGame(Player player1, Player player2){
-        if (gs == GameState.Play) {
-            playerMove(player1, size, boardGame.cells);
-            interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
-        }
-        if (gs == GameState.Play) {
-            playerMove(player2, size, boardGame.cells);
-            interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
-        }
-    }
     enum GameState {
         Init,
         Play,
@@ -108,7 +93,6 @@ abstract public class GameController {
         }
         return gs;
     }
-
     /**
      * Call method displayGameField & while not end of game calling stepOfGame
      */
@@ -123,7 +107,14 @@ abstract public class GameController {
                     displayGameField(boardGame.cells, size, interactionUtilisateur.visualization);
                     gs = GameState.Play;
                 }
-                case Play -> stepOfGame(boardGame.playerX, boardGame.playerO);
+                case Play -> {
+                        playerMove(boardGame.playerX, size, boardGame.cells);
+                        interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
+                    if (gs == GameState.Play) {
+                        playerMove(boardGame.playerO, size, boardGame.cells);
+                        interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
+                    }
+                }
                 case Win, NoWin -> {
                     interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nReplay? y/n\n");
                     gs = confirmReplay(gs);
@@ -133,16 +124,17 @@ abstract public class GameController {
         }
         System.out.println("Bye!!");
     }
-
     /**
      *
-     * @param rep "----" string which passed for cell dividing
      * @param i int parameter passing as step of iteration from loop where that method will be called
      * @param checkout String - type of winner direction
      */
-    private void colorCheckout(String rep, Integer i, String checkout) {
+    private void colorCheckout(Integer i, String checkout) {
+        StringBuilder representation = new StringBuilder();
+        representation.append("\n");
+        representation.append("----".repeat(Math.max(0, size)));
         for (int h = 0; h < size; h++) {
-            System.out.print(rep);
+            System.out.print(representation);
             for (int j = 0; j < size; j++) {
                 if (j % size == 0) {
                     System.out.print("\n");
@@ -186,20 +178,19 @@ abstract public class GameController {
      * test method which includes all action to check board on Win
      * @param i int  - step of iteration from loop where this method will be called
      * @param version String - version of testing H - horizontal, V - vertical...
-     * @param representation String - parameter(rep) which needed colorCheckout method inside this Method
      * @param by String - text which will be placed inside Winner result line
      * @return String - Winner result line
      */
-    private String testMethod(int i, String version, String representation, String by) {
+    private String testMethod(int i, String version, String by) {
         List<String> testArray = new ArrayList<>();
         String result = "";
         if (Objects.equals(version, "H")) {
             if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| O ")).count() == boardGame.cells.length) {
-                colorCheckout(representation, i, "H");
+                colorCheckout(i, "H");
                 return "\nPlayer O Win by horizontal!!!";
             }
             if (Arrays.stream(boardGame.cells[i]).filter(el -> Objects.equals(el.representation, "| X ")).count() == boardGame.cells.length) {
-                colorCheckout(representation, i, "H");
+                colorCheckout(i, "H");
                 return "\nPlayer X Win by horizontal!!!";
             }
         } else {
@@ -212,43 +203,38 @@ abstract public class GameController {
                 }
             }
             if (!testArray.contains("|   ") && !testArray.contains("| X ")) {
-                colorCheckout(representation, i, version);
+                colorCheckout(i, version);
                 result = "\nPlayer O Win by " + by + "!!!";
             }
             if (!testArray.contains("|   ") && !testArray.contains("| O ")) {
-                colorCheckout(representation, i, version);
+                colorCheckout(i, version);
                 result = "\nPlayer X Win by " + by + "!!!";
             }
         }
         return result;
     }
-
     /**
      * Method which call testMethod while there is no Winner or Game finished
      * @return result testMethod || "No winner!!!" || "Make choose!!!"
      */
     private String testForWin() {
-        //initialization testing
-        StringBuilder representation = new StringBuilder();
-        representation.append("\n");
-        representation.append("----".repeat(Math.max(0, size)));
         String result;
         // testing initialization
         for (int i = 0; i < boardGame.cells.length; i++) {
             // horizontal
-            result = testMethod(i, "H", representation.toString(), "horizontal");
+            result = testMethod(i, "H", "horizontal");
 
             // vertical
             if (result.equals("")) {
-                result = testMethod(i, "V", representation.toString(), "vertical");
+                result = testMethod(i, "V", "vertical");
             }
             // diagonal
             if (result.equals("")) {
-                result = testMethod(i, "D", representation.toString(), "diagonal \"\\\"");
+                result = testMethod(i, "D", "diagonal \"\\\"");
             }
             // diagonal2
             if (result.equals("")) {
-                result = testMethod(i, "D2", representation.toString(), "diagonal \"/\"");
+                result = testMethod(i, "D2", "diagonal \"/\"");
             }
             if (!result.equals("")) {
                 gs = GameState.Win;
