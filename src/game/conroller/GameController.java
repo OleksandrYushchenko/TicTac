@@ -6,21 +6,18 @@ import game.model.Player;
 import game.view.InteractionUtilisateur;
 import game.view.Visualization;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 abstract public class GameController {
     private final InteractionUtilisateur interactionUtilisateur; // view
     private final BoardGame boardGame;
     private final int size;
-    private final int typeOfGame;
     private Boolean end = false;
+    public GameState gs;
     public GameController(){
         this.interactionUtilisateur = new InteractionUtilisateur();
         this.size = interactionUtilisateur.askSizeOfGame();
-        this.typeOfGame = interactionUtilisateur.askTypeOfGame();
+        int typeOfGame = interactionUtilisateur.askTypeOfGame();
         this.boardGame = new BoardGame(size, typeOfGame);
     }
     /**
@@ -85,6 +82,31 @@ abstract public class GameController {
             interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, test());
         }
     }
+    enum GameState {
+        Init,
+        Play,
+        Win,
+        NoWin,
+        Quit
+    }
+    enum ConfirmReplay{
+        Y,
+        N
+    }
+    private static GameState confirmReplay(GameState gs) {
+        Scanner sc = new Scanner(System.in);
+        String line = sc.nextLine();
+        ConfirmReplay c = ConfirmReplay.valueOf(line.toUpperCase());
+        switch (c){
+            case Y:
+                gs = GameState.Init;
+                break;
+            case N:
+                gs = GameState.Quit;
+                break;
+        }
+        return gs;
+    }
 
     /**
      * Call method displayGameField & while not end of game calling stepOfGame
@@ -110,33 +132,34 @@ abstract public class GameController {
                     System.out.print("\n");
                 }
                 switch (checkout) {
-                    case "H":
+                    case "H" -> {
                         if (h == i) {
                             boardGame.cells[i][j].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
                             boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
-                        break;
-                    case "V":
+                    }
+                    case "V" -> {
                         if (j == i) {
                             boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
                             boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
-                        break;
-                    case "D":
+                    }
+                    case "D" -> {
                         if (j == h) {
                             boardGame.cells[j][h].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
                             boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
-                        break;
-                    default:
+                    }
+                    default -> {
                         if (j == (size - 1) - h) {
                             boardGame.cells[h][(size - 1) - h].cellPrint("Win", interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         } else {
                             boardGame.cells[h][j].cellPrint("Win", interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
                         }
+                    }
                 }
 
             }
