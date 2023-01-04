@@ -12,17 +12,14 @@ public class StartMenu {
         2. To Play Gomoku;
         """);
         int choose = sc.nextInt();
-        System.out.println("\n");
-        System.out.println("Tic - Tac - Toe");
         switch (choose) {
             case 1 -> {
+                System.out.println("\n");
+                System.out.println("Tic - Tac - Toe");
                 game = new TicTacToe();
-                game.play();
             }
-            case 2 -> {
-                game = new Gomoku();
-                game.play();
-            }
+            case 2 -> game = new Gomoku();
         }
+        game.play();
     }
 }

@@ -32,7 +32,6 @@ public class InteractionUtilisateur {
         }
         return number;
     }
-
     /**
      * Method which used for get type of game(Human - Human, Human - Machine, Machine - Machine)
      *

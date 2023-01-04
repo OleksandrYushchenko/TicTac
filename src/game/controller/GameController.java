@@ -1,6 +1,7 @@
 package game.controller;
 
 import game.model.BoardGame;
+import game.model.BoardGameConsole;
 import game.model.Cell;
 import game.model.Player;
 import game.view.InteractionUtilisateur;
@@ -10,14 +11,14 @@ import java.util.*;
 
 abstract class GameController implements  Game{
     public final InteractionUtilisateur interactionUtilisateur;
-    public final BoardGame boardGame;
     public int size;
     public int typeOfGame;
     public GameState gs;
+    public BoardGame boardGame;
 
     public GameController () {
         this.interactionUtilisateur = new InteractionUtilisateur();
-        this.boardGame = new BoardGame(size, typeOfGame);
+        boardGame = new BoardGameConsole(size, typeOfGame);
     }
     enum GameState {
         Init,

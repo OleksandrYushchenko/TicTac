@@ -19,10 +19,10 @@ public class TicTacToe extends GameController {
                     gs = GameState.Play;
                 }
                 case Play -> {
-                    playerMove(boardGame.playerX, size, boardGame.getCells());
+                    playerMove(boardGame.getPlayerX(), size, boardGame.getCells());
                     interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
                     if (gs == GameState.Play) {
-                        playerMove(boardGame.playerO, size, boardGame.getCells());
+                        playerMove(boardGame.getPlayerO(), size, boardGame.getCells());
                         interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
                     }
                 }
