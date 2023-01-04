@@ -20,15 +20,12 @@ public class  Cell {
 
     /**
      * print cell representation
-     * @param type String - type of Print "Win" || "NoWin"
      * @param startVisualisation String - visual effects for System out print(ln)
      * @param endVisualisation String - visual effects for System out print(ln)
      * @return cell representation
      */
-    public String cellPrint(String type, String startVisualisation, String endVisualisation) {
-        if (Objects.equals(type, "Win")) {
-            System.out.print(startVisualisation + this.representation + endVisualisation);
-        }
+    public String cellPrint(String startVisualisation, String endVisualisation) {
+        System.out.print(startVisualisation + this.representation + endVisualisation);
         return this.representation;
     }
 }

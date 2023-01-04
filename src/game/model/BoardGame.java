@@ -1,7 +1,7 @@
 package game.model;
 
 public class BoardGame {
-    public Cell[][] cells;
+    private Cell[][] cells;
     public Player playerX;
     public Player playerO;
     public BoardGame(int size,int typeOfGame){
@@ -29,6 +29,15 @@ public class BoardGame {
             }
         }
     }
+
+    public Cell[][] getCells () {
+        return cells;
+    }
+
+    public Cell getCell (int i, int j) {
+        return cells[i][j];
+    }
+
     public void resetBoard (int size, int typeOfGame){
         switch (typeOfGame) {
             case 1 -> {
