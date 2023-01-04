@@ -199,11 +199,11 @@ abstract public class GameController {
      */
     private String testForWin () {
         List<String> testNoWin = new ArrayList<>();
-        List<String> testArrayV = new ArrayList<>();
-        List<String> testArrayD = new ArrayList<>();
-        List<String> testArrayD2 = new ArrayList<>();
         String result = "";
         for (int i = 0 ; i < boardGame.getCells().length ; i++) {
+            List<String> testArrayV = new ArrayList<>();
+            List<String> testArrayD = new ArrayList<>();
+            List<String> testArrayD2 = new ArrayList<>();
             for (int j = 0 ; j < boardGame.getCells().length ; j++) {
                 testNoWin.add(boardGame.getCell(i, j).representation);
                 testArrayV.add(boardGame.getCell(j, i).representation);
