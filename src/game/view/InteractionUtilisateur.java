@@ -57,7 +57,6 @@ public class InteractionUtilisateur {
         }
         return number;
     }
-
     /**
      * Method which used for get coordinates from Human player(Scanner...)
      *

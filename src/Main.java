@@ -1,10 +1,8 @@
-import game.conroller.TicTacToe;
+import game.controller.StartMenu;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("\n");
-        System.out.println("Tic - Tac - Toe");
-        TicTacToe ticTacToe = new TicTacToe();
-        ticTacToe.play();
+        StartMenu startMenu = new StartMenu();
+        startMenu.game();
     }
 }
