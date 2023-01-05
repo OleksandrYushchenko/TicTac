@@ -11,12 +11,11 @@ import game.view.Visualization;
 import java.util.*;
 
 abstract class GameController implements  Game{
-    public Interaction interactionConsole;
-    public int size;
-    public int typeOfGame;
-    public GameState gs;
-    public BoardGame boardGame;
-
+    private Interaction interactionConsole;
+    private int size;
+    private int typeOfGame;
+    private GameState gs;
+    private BoardGame boardGame;
     public GameController () {
         this.interactionConsole = new InteractionConsole();
         boardGame = new BoardGameConsole(size, typeOfGame);
@@ -96,5 +95,29 @@ abstract class GameController implements  Game{
             y = coordinates[1];
         }
         player.captureCell(cells, x, y);
+    }
+    public Interaction getInteractionConsole () {
+        return interactionConsole;
+    }
+    public void setSize (int size) {
+        this.size = size;
+    }
+    public int getSize () {
+        return size;
+    }
+    public void setTypeOfGame (int typeOfGame) {
+        this.typeOfGame = typeOfGame;
+    }
+    public int getTypeOfGame () {
+        return typeOfGame;
+    }
+    public void setGs (GameState gs) {
+        this.gs = gs;
+    }
+    public GameState getGs () {
+        return gs;
+    }
+    public BoardGame getBoardGame () {
+        return boardGame;
     }
 }
