@@ -3,23 +3,20 @@ package game.view;
 import java.util.Scanner;
 
 public class InteractionConsole implements Interaction {
-    public Visualization visualization;
-    public View view;
+    private Visualization visualization;
+    private View view;
     private Scanner sc;
     public InteractionConsole (){
         this.visualization = new Visualization();
         this.view = new View();
         this.sc = new Scanner(System.in);
     }
-
     public Visualization getVisualization () {
         return visualization;
     }
-
     public View getView () {
         return view;
     }
-
     /**
      * Method which used for get game field size
      *
