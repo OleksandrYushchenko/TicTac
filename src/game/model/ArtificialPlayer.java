@@ -11,7 +11,6 @@ public class ArtificialPlayer extends Player {
         return (int) (
                 (Math.random() * (max)));
     }
-
     /**
      * return int[] with 2 values - coordinates of player move
      * @param size int - size of gameBoard

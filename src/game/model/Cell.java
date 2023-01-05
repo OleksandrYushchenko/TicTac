@@ -3,8 +3,8 @@ package game.model;
 import java.util.Objects;
 
 public class  Cell {
-    public String representation;
-    public Player player;
+    private String representation;
+    private Player player;
 
     public Cell(){
         this.representation = "|   ";
@@ -18,6 +18,12 @@ public class  Cell {
         this.player = player;
     }
 
+    public String getRepresentation () {
+        return representation;
+    }
+    public void setRepresentation (String representation) {
+        this.representation = representation;
+    }
     /**
      * print cell representation
      * @param startVisualisation String - visual effects for System out print(ln)

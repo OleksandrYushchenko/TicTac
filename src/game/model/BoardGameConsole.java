@@ -2,8 +2,8 @@ package game.model;
 
 public class BoardGameConsole implements BoardGame{
     private Cell[][] cells;
-    public Player playerX;
-    public Player playerO;
+    private Player playerX;
+    private Player playerO;
     public BoardGameConsole (int size, int typeOfGame){
         // Instanciate the player
         switch (typeOfGame) {

@@ -12,22 +12,22 @@ public class TicTacToe extends GameController {
         while (gs != GameState.Quit) {
             switch (gs) {
                 case Init -> {
-                    size = interactionUtilisateur.askSizeOfGame();
-                    typeOfGame = interactionUtilisateur.askTypeOfGame();
+                    size = interactionConsole.askSizeOfGame();
+                    typeOfGame = interactionConsole.askTypeOfGame();
                     boardGame.resetBoard(size, typeOfGame);
-                    displayGameField(boardGame.getCells(), size, interactionUtilisateur.visualization);
+                    displayGameField(boardGame.getCells(), size, interactionConsole.getVisualization());
                     gs = GameState.Play;
                 }
                 case Play -> {
                     playerMove(boardGame.getPlayerX(), size, boardGame.getCells());
-                    interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
+                    interactionConsole.getView().displayTest(interactionConsole.getVisualization(), testForWin());
                     if (gs == GameState.Play) {
                         playerMove(boardGame.getPlayerO(), size, boardGame.getCells());
-                        interactionUtilisateur.view.displayTest(interactionUtilisateur.visualization, testForWin());
+                        interactionConsole.getView().displayTest(interactionConsole.getVisualization(), testForWin());
                     }
                 }
                 case Win, NoWin -> {
-                    interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nReplay? y/n\n");
+                    interactionConsole.getView().displayText(interactionConsole.getVisualization(), "\nReplay? y/n\n");
                     gs = confirmReplay(gs);
                 }
                 default -> System.out.println("Error");
@@ -39,7 +39,7 @@ public class TicTacToe extends GameController {
      * @param i        int parameter passing as step of iteration from loop where that method will be called
      * @param checkout String - type of winner direction
      */
-    private void coloredWinnerLine (Integer i, String checkout) {
+    private void coloredWinnerLine (int i, String checkout) {
         StringBuilder representation = new StringBuilder();
         representation.append("\n");
         representation.append("----".repeat(Math.max(0, size)));
@@ -52,30 +52,30 @@ public class TicTacToe extends GameController {
                 switch (checkout) {
                     case "H" -> {
                         if (h == i) {
-                            boardGame.getCell(i, j).cellPrint(interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(i, j).cellPrint(interactionConsole.getVisualization().RED_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         } else {
-                            boardGame.getCell(h, j).cellPrint(interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(h, j).cellPrint(interactionConsole.getVisualization().WHITE_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         }
                     }
                     case "V" -> {
                         if (j == i) {
-                            boardGame.getCell(h, j).cellPrint(interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(h, j).cellPrint(interactionConsole.getVisualization().RED_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         } else {
-                            boardGame.getCell(h, j).cellPrint(interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(h, j).cellPrint(interactionConsole.getVisualization().WHITE_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         }
                     }
                     case "D" -> {
                         if (j == h) {
-                            boardGame.getCell(j, h).cellPrint(interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(j, h).cellPrint(interactionConsole.getVisualization().RED_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         } else {
-                            boardGame.getCell(h, j).cellPrint(interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(h, j).cellPrint(interactionConsole.getVisualization().WHITE_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         }
                     }
                     default -> {
                         if (j == (size - 1) - h) {
-                            boardGame.getCell(h, (size - 1) - h).cellPrint(interactionUtilisateur.visualization.RED_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(h, (size - 1) - h).cellPrint(interactionConsole.getVisualization().RED_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         } else {
-                            boardGame.getCell(h, j).cellPrint(interactionUtilisateur.visualization.WHITE_BOLD, interactionUtilisateur.visualization.ANSI_RESET);
+                            boardGame.getCell(h, j).cellPrint(interactionConsole.getVisualization().WHITE_BOLD, interactionConsole.getVisualization().ANSI_RESET);
                         }
                     }
                 }
@@ -105,17 +105,17 @@ public class TicTacToe extends GameController {
             List<String> testArrayD = new ArrayList<>();
             List<String> testArrayD2 = new ArrayList<>();
             for (int j = 0 ; j < boardGame.getCells().length ; j++) {
-                testNoWin.add(boardGame.getCell(i, j).representation);
-                testArrayV.add(boardGame.getCell(j, i).representation);
-                testArrayD.add(boardGame.getCell(j, j).representation);
-                testArrayD2.add(boardGame.getCell(j, size - 1 - j).representation);
+                testNoWin.add(boardGame.getCell(i, j).getRepresentation());
+                testArrayV.add(boardGame.getCell(j, i).getRepresentation());
+                testArrayD.add(boardGame.getCell(j, j).getRepresentation());
+                testArrayD2.add(boardGame.getCell(j, size - 1 - j).getRepresentation());
             }
             // horizontal
-            if (Arrays.stream(boardGame.getCells()[i]).filter(el -> Objects.equals(el.representation, "| O ")).count() == boardGame.getCells().length) {
+            if (Arrays.stream(boardGame.getCells()[i]).filter(el -> Objects.equals(el.getRepresentation(), "| O ")).count() == boardGame.getCells().length) {
                 coloredWinnerLine(i, "H");
                 result = "\nPlayer O Win!!!";
             }
-            if (Arrays.stream(boardGame.getCells()[i]).filter(el -> Objects.equals(el.representation, "| X ")).count() == boardGame.getCells().length) {
+            if (Arrays.stream(boardGame.getCells()[i]).filter(el -> Objects.equals(el.getRepresentation(), "| X ")).count() == boardGame.getCells().length) {
                 coloredWinnerLine(i, "H");
                 result = "\nPlayer X Win!!!";
             }
@@ -133,10 +133,10 @@ public class TicTacToe extends GameController {
         // No win
         if (!testNoWin.contains("|   ")) {
             gs = GameState.NoWin;
-            displayGameField(boardGame.getCells(), size, interactionUtilisateur.visualization);
+            displayGameField(boardGame.getCells(), size, interactionConsole.getVisualization());
             return "\nNo winner!!!";
         }
-        displayGameField(boardGame.getCells(), size, interactionUtilisateur.visualization);
+        displayGameField(boardGame.getCells(), size, interactionConsole.getVisualization());
         return "\nMake choose!!!";
     }
 }

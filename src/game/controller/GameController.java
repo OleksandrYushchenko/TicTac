@@ -4,21 +4,23 @@ import game.model.BoardGame;
 import game.model.BoardGameConsole;
 import game.model.Cell;
 import game.model.Player;
-import game.view.InteractionUtilisateur;
+import game.view.Interaction;
+import game.view.InteractionConsole;
 import game.view.Visualization;
 
 import java.util.*;
 
 abstract class GameController implements  Game{
-    public final InteractionUtilisateur interactionUtilisateur;
+    public Interaction interactionConsole;
     public int size;
     public int typeOfGame;
     public GameState gs;
     public BoardGame boardGame;
 
     public GameController () {
-        this.interactionUtilisateur = new InteractionUtilisateur();
+        this.interactionConsole = new InteractionConsole();
         boardGame = new BoardGameConsole(size, typeOfGame);
+        interactionConsole = new InteractionConsole();
     }
     enum GameState {
         Init,
@@ -42,7 +44,7 @@ abstract class GameController implements  Game{
                 case N -> gs = GameState.Quit;
             }
         } catch (Exception e) {
-            interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "Entered Data invalid. Enter y/n");
+            interactionConsole.getView().displayText(interactionConsole.getVisualization(), "Entered Data invalid. Enter y/n");
         }
         return gs;
     }
@@ -73,20 +75,20 @@ abstract class GameController implements  Game{
      * @param cells  game.model.Cell[][] cells - game field
      */
     public void playerMove (Player player, int size, Cell[][] cells) {
-        interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
+        interactionConsole.getView().displayPlayerTurnName(interactionConsole.getVisualization(), player.getRepresentation());
         int[] coordinates;
         if (!player.isArtificial()) {
-            coordinates = player.playerMove(interactionUtilisateur.askCoordinates(size), size);
+            coordinates = player.playerMove(interactionConsole.askCoordinates(size), size);
         } else {
             coordinates = player.playerMove(new int[2], size);
         }
         int x = coordinates[0];
         int y = coordinates[1];
-        while (Objects.equals(cells[x][y].representation, "| X ") || Objects.equals(cells[x][y].representation, "| O ")) {
-            interactionUtilisateur.view.displayText(interactionUtilisateur.visualization, "\nCell is already captured!!!");
-            interactionUtilisateur.view.displayPlayerTurnName(interactionUtilisateur.visualization, player.representation);
+        while (Objects.equals(cells[x][y].getRepresentation(), "| X ") || Objects.equals(cells[x][y].getRepresentation(), "| O ")) {
+            interactionConsole.getView().displayText(interactionConsole.getVisualization(), "\nCell is already captured!!!");
+            interactionConsole.getView().displayPlayerTurnName(interactionConsole.getVisualization(), player.getRepresentation());
             if (!player.isArtificial()) {
-                coordinates = player.playerMove(interactionUtilisateur.askCoordinates(size), size);
+                coordinates = player.playerMove(interactionConsole.askCoordinates(size), size);
             } else {
                 coordinates = player.playerMove(new int[2], size);
             }
