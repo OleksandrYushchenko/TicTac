@@ -3,9 +3,9 @@ package game.view;
 import java.util.Scanner;
 
 public class InteractionConsole implements Interaction {
-    private Visualization visualization;
-    private View view;
-    private Scanner sc;
+    private final Visualization visualization;
+    private final View view;
+    private final Scanner sc;
     public InteractionConsole (){
         this.visualization = new Visualization();
         this.view = new View();

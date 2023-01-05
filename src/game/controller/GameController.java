@@ -15,7 +15,7 @@ abstract class GameController implements  Game{
     private int size;
     private int typeOfGame;
     private GameState gs;
-    private BoardGame boardGame;
+    private final BoardGame boardGame;
     public GameController () {
         this.interactionConsole = new InteractionConsole();
         boardGame = new BoardGameConsole(size, typeOfGame);

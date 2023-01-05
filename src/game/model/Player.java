@@ -3,7 +3,7 @@ package game.model;
 import java.util.Objects;
 
 public abstract class Player {
-    private String representation;
+    private final String representation;
     public Player(String pRepresentation){ // Constructor is always mandatory
         this.representation = pRepresentation;
     }
@@ -22,7 +22,6 @@ public abstract class Player {
             cells[x][y].setRepresentation(this.representation);
         }
     }
-
     public String getRepresentation () {
         return representation;
     }
