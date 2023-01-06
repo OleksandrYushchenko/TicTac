@@ -1,11 +1,12 @@
 package game.controller;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class TicTacToe extends GameController {
+public class TicTacToe extends GameController implements Serializable {
     public TicTacToe () {}
     public void play () {
         setGs(GameState.Init);

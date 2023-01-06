@@ -10,7 +10,7 @@ import game.view.Visualization;
 
 import java.util.*;
 
-abstract class GameController implements  Game{
+abstract class GameController implements Game{
     private Interaction interactionConsole;
     private int size;
     private int typeOfGame;
