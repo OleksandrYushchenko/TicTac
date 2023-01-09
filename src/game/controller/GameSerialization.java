@@ -29,7 +29,7 @@ public class GameSerialization implements Persistence {
             in.close();
             fileIn.close();
         } catch (IOException i) {
-            i.printStackTrace();
+            System.out.println("There is no previous game saved");
         } catch (ClassNotFoundException c) {
             c.printStackTrace();
         }

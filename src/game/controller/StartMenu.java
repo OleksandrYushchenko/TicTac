@@ -1,5 +1,6 @@
 package game.controller;
 
+import java.io.File;
 import java.util.Scanner;
 
 public class StartMenu {
@@ -7,16 +8,27 @@ public class StartMenu {
     private Game game;
     public void game(){
         Scanner sc = new Scanner(System.in);
+        File fGomoku = new File("Serialize/game.controller.Gomoku.ser");
+        File fTicTacToe = new File("Serialize/game.controller.TicTacToe.ser");
         boolean condition = true;
         while (condition) {
             try {
-                System.out.println("""
-                \n1. To Play TicTacToe;
-                2. To Play Gomoku;
-                3. To RePlay last TicTactToe;
-                4. To RePlay last Gomoku;
-                5. Quit;
-                """);
+                if (fTicTacToe.exists() || fGomoku.exists()) {
+                    System.out.println("""
+                    \n1. To Play TicTacToe;
+                    2. To Play Gomoku;
+                    3. To RePlay last TicTactToe;
+                    4. To RePlay last Gomoku;
+                    5. Quit;
+                    """);
+                } else {
+                    System.out.println("""
+                    \n1. To Play TicTacToe;
+                    2. To Play Gomoku;
+                    3. Quit;
+                    """);
+                }
+
                 int choose = sc.nextInt(6);
                 condition = choose < 1;
                 if (condition) {
@@ -43,9 +55,6 @@ public class StartMenu {
                 System.out.println("Entered data is not valid");
                 sc.next();
             }
-        }
-        if (this.game != null) {
-            game.play();
         }
     }
 }

@@ -1,8 +1,6 @@
 package game.controller;
 
-import java.io.*;
-
-public interface Persistence extends Serializable {
+public interface Persistence {
     void create(Game game);
     Game read (Class gameClass);
 }
